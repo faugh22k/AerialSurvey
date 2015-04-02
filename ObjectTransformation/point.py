@@ -1,5 +1,34 @@
 import math
 
+class PointPolar() :
+	"""
+	a point, in polar coordinate wrt center of canvas
+	(i,j,theta)
+	"""
+
+	# Geographic latitude, longitude values of this point
+	latitude = None
+	longitude = None
+	
+	# i,j (width,height) distances wrt to (0,0) of canvas
+	i = None
+	j = None
+
+
+	def __init__( self , geoPt ,  ) :
+		"""
+		Constructor
+
+		@param geoPt: Geographic latitude , longitude of this point
+		@param
+		"""
+		self.latitude = latitude
+		self.longitude = longitude
+		
+
+
+
+
 class PointCartesian() :
 	"""
 	a point
