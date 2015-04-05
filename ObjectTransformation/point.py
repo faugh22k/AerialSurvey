@@ -1,10 +1,13 @@
 import math
 
-class PointPolar() :
+class Point() :
 	"""
 	a point, in polar coordinate wrt center of canvas
 	(i,j,theta)
 	"""
+	# for painting
+	colour = None
+	weight = None
 
 	# Geographic latitude, longitude values of this point
 	latitude = None
@@ -15,15 +18,26 @@ class PointPolar() :
 	j = None
 
 
-	def __init__( self , geoPt ,  ) :
+	def __init__( self , geoPt , ptColour , ptWeight ) :
 		"""
 		Constructor
 
 		@param geoPt: Geographic latitude , longitude of this point
-		@param
+		@param ptColour: Colour to paint this point with. None if this point is part of a line.
+		@param ptWeight: Weight of this point. None if this point is part of a line.
+		@param 
 		"""
-		self.latitude = latitude
-		self.longitude = longitude
+		self.latitude = geoPt[0]
+		self.longitude = geoPt[1]
+
+		self.colour = ptColour
+		self.weight = ptWeight
+
+
+	def paint( self , canvas ) :
+		canvas.createLine( i , j , i , j + self.weight , fill = self.colour , width = self.weight )
+
+
 		
 
 

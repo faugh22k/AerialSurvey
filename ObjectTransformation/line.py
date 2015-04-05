@@ -1,10 +1,10 @@
 from Tkinter import *
 from point import PointCartesian
-from point import PointPolar
+from point import Point
 
 import math
 
-class LinePolar() :
+class Line() :
 	"""
 	a line - uses polar coordinates
 	"""
@@ -16,6 +16,22 @@ class LinePolar() :
 
 	# angle, in radians
 	angle = None
+
+
+	def __init__( self , point1 , point2 ) :
+		"""
+		Constructor
+
+		@param point1: 
+		@param point2:
+		"""
+		self.point1 = point1
+		self.point2 = point2
+
+
+
+
+		
 
 
 
