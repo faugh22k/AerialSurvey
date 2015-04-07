@@ -35,21 +35,21 @@ for shape in shapes:
 	line.translate(translateX,translateY)
 
 	print( "line length = " + str(line.length()) ) 
-	line.drawSolidLine(canvas,"#ffff33" , 2 )
+	line.drawSolidLine( canvas,"#ffff33" , 2 )
 
 # ramps 
-#campusRamps = shapefile.Reader("campus/ramps.shp")
-#shapes = campusRamps.shapes()
+campusRamps = shapefile.Reader("campus/ramps.shp")
+shapes = campusRamps.shapes()
 
-#for shape in shapes:
-#	points = shape.points
-#	line = LineCartesian( points[0][0] , points[0][1] , points[1][0] , points[1][1] )
-#	
-#	line.scale(scale,origin)
-#	line.translate(translateX,translateY)
-#
-#	print( "line length = " + str(line.length()) ) 
-#	line.drawSolidLine(canvas,"#ff0000" , 2 )
+for shape in shapes:
+	points = shape.points
+	line = LineCartesian( points[0][0] , points[0][1] , points[1][0] , points[1][1] )
+	
+	line.scale(scale,origin)
+	line.translate(translateX,translateY)
+
+	print( "line length = " + str(line.length()) ) 
+	line.drawSolidLine(canvas,"#ff0000" , 2 )
 
 # breadcrumbs
 breadcrumbs = BreadcrumbsCartesian()
