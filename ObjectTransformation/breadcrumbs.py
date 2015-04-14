@@ -1,20 +1,19 @@
-from point import PointCartesian
+from point import *
 #from gpsData import GPS
 
-class BreadcrumbsCartesian() :
+class Breadcrumbs() : 
 
-	path = []
+	path = None
 
-	pointLength = 1
-
-	angle = 0
+	pointSize = 5
+	pointColor = "#135e1c" 
 
 	def __init__( self ) :
-		self.path = []
+		self.path = [] 
 
-	def groundSpeed( self ) :
-		# calculate ground speed
-		return 1
+		# for initial test data
+		#self.path = [Point((-72.5753720000,42.2553930000), self.pointColor, self.pointSize) , Point((-72.5753735000,42.2553950000), self.pointColor, self.pointSize)]
+		self.path = [Point((20,20), self.pointColor, self.pointSize) , Point((30,25), self.pointColor, self.pointSize), Point((0,0), self.pointColor, self.pointSize), Point((250,400), self.pointColor, self.pointSize)]
 
 	def addPoint( self , point ) :
 
@@ -23,23 +22,30 @@ class BreadcrumbsCartesian() :
 		# for dashed lines or dots with even intervals - need to determine length, lines drawn accordingly
 		# angle between vectors: v dot w = |v| |w| cos(theta)
 
-		self.path.append( point )
+		self.path.append( Point(point, self.color, self.pointSize) ) 
 
 
-	def drawLatestPoint( self , canvas ) :
-		# draws the most recently-added point
-		point = self.path[-1] 
-		canvas.create_line( point.getX() , point.getY() , point.getX() , point.getY() + 3 , fill = "#68a83d" , width = 3 )
-
-	def drawDashedLine( self , canvas ) :
-		# draws set of points as lines
-		return 1
-
-	def drawTmpPlane( self , canvas ) :
-		# canvas rotates wrt to plane
-		return 1
+	#def drawLatestPoint( self , canvas ) :
+	#	# draws the most recently-added point
+	#	point = self.path[-1] 
+	#	canvas.create_line( point.getX() , point.getY() , point.getX() , point.getY() + 3 , fill = "#68a83d" , width = 3 )
 
 
-	def angle( self ) :
-		# angle that plane rotated by
-		return 1
+	def translate(self, x, y):
+		for point in self.path:
+			point.translate(x,y)
+
+	def scale(self, magnitude, center):
+		for point in self.path:
+			point.scale(magnitude, center)
+
+
+	def paint( self , canvas ) :
+		print("painting breadcrumbs")
+		# draws every third point
+		pointNumber = 0
+		for point in self.path:
+			if pointNumber % 3 == 0:
+				point.paint(canvas)
+
+	

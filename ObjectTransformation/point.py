@@ -1,3 +1,4 @@
+from Tkinter import *
 import math
 
 class Point() :
@@ -18,7 +19,7 @@ class Point() :
 	y = None
 
 
-	def __init__( self , geoPt , canvasPt , ptColour , ptWeight ) :
+	def __init__( self , geoPt , ptColour , ptWeight ) :
 		"""
 		Constructor
 
@@ -31,8 +32,8 @@ class Point() :
 		self.latitude = geoPt[0]
 		self.longitude = geoPt[1]
 
-		self.x = canvasPt[0]
-		self.y = canvasPt[1]
+		self.x = geoPt[0]
+		self.y = geoPt[1]
 
 		self.colour = ptColour
 		self.weight = ptWeight
@@ -45,14 +46,14 @@ class Point() :
 		# x' = xcos(theta) - ysin(theta)
 		# y' = xsin(theta) + ycos(theta)
 		
-		x1 = self.x - center.getX()
-		y1 = self.y - center.getY()
+		x1 = self.x - center[0]
+		y1 = self.y - center[1]
 
 		xNew = x1 * math.cos(angle) - y1 * math.sin(angle)
 		yNew = x1 * math.sin(angle) + y1 * math.cos(angle)
 
-		self.x = xNew + center.getX()
-		self.y = yNew + center.getY()
+		self.x = xNew + center[0]
+		self.y = yNew + center[1]
 
 
 	def scale( self , magnitude , center ) :
@@ -61,14 +62,14 @@ class Point() :
 		@param center :
 		"""
 		# scale distance between center and point
-		x1 = self.x - center.getX()
-		y1 = self.y - center.getY()
+		x1 = self.x - center[0]
+		y1 = self.y - center[1]
 
 		xNew = x1 * magnitude
 		yNew = y1 * magnitude
 
-		self.x = xNew + center.getX()
-		self.y = yNew + center.getY()
+		self.x = xNew + center[0]
+		self.y = yNew + center[1]
 
 
 	def translate( self , factorX , factorY ) :
@@ -83,7 +84,7 @@ class Point() :
 	# --- Others -------------------------------------------------- #
 	
 	def paint( self , canvas ) :
-		canvas.createLine( self.x , self.y , self.x , self.y + self.weight , fill = self.colour , width = self.weight )
+		canvas.create_line( self.x , self.y , self.x , self.y + self.weight , fill = self.colour , width = self.weight )
 
 
 	# --- Getters ------------------------------------------------- #
@@ -94,91 +95,9 @@ class Point() :
 	def getY( self ) :
 		return self.y
 
+	def getLatitude( self ) :
+		return self.latitude 
 
+	def getLongitude( self ) :
+		return self.longitude
 
-
-class PointCartesian() :
-	"""
-	a point
-	"""
-
-	x = None
-	y = None
-
-
-	# --- Constructor --------------------------------------------- #
-
-	def __init__( self , x , y ) :
-		"""
-		Constructor
-		@param x : The x-coordinate
-		@param y : The y-coordinate
-		"""
-		self.x = x
-		self.y = y
-
-
-	# --- Transformation Methods ---------------------------------- #
-
-	def rotate( self , angle , center ) :
-		"""
-		@param angle : the angle to rotate by, in radians
-		@param center : center of canvas - a Point object
-		"""
-		# using rotation in 2-dimensions (euclidian)
-		# x' = xcos(theta) - ysin(theta)
-		# y' = xsin(theta) + ycos(theta)
-		
-		x1 = self.x - center.getX()
-		y1 = self.y - center.getY()
-
-		xNew = x1 * math.cos(angle) - y1 * math.sin(angle)
-		yNew = x1 * math.sin(angle) + y1 * math.cos(angle)
-
-		self.x = xNew + center.getX()
-		self.y = yNew + center.getY()
-
-		print( "rotate - new coordinates = (" + str(self.x) + "," + str(self.y) + ")" )
-
-
-	def scale( self , magnitude , center ) :
-		"""
-		@param magnitude :
-		@param center :
-		"""
-		# scale distance between center and point
-		x1 = self.x - center.getX()
-		y1 = self.y - center.getY()
-
-		xNew = x1 * magnitude
-		yNew = y1 * magnitude
-
-		self.x = xNew + center.getX()
-		self.y = yNew + center.getY()
-
-		print( "scale - new coordinates = (" + str(self.x) + "," + str(self.y) + ")" )
-
-
-	def translate( self , factorX , factorY ) :
-		"""
-		@param factorX :
-		@param factorY :
-		"""
-		self.x += factorX
-		self.y += factorY
-
-
-	# --- Getters ------------------------------------------------- #
-
-	def getX( self ) :
-		"""
-		@return 
-		"""
-		return self.x
-
-
-	def getY( self ) :
-		"""
-		@return
-		"""
-		return self.y
