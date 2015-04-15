@@ -84,6 +84,7 @@ class Point() :
 	# --- Others -------------------------------------------------- #
 	
 	def paint( self , canvas ) :
+		print("...\npoint: {0}, {1}".format(self.x, self.y))
 		canvas.create_line( self.x , self.y , self.x , self.y + self.weight , fill = self.colour , width = self.weight )
 
 
@@ -94,6 +95,9 @@ class Point() :
 
 	def getY( self ) :
 		return self.y
+
+	def getCanvasPt( self ) :
+		return ( self.x , self.y )
 
 	def getLatitude( self ) :
 		return self.latitude 

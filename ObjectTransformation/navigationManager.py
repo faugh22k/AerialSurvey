@@ -44,9 +44,9 @@ class NavigationDisplay(Frame):
 
 
 		# TMPdefaults*
-		self.currentScale = 100000
-		self.translateX = 32257300
-		self.translateY = 20774500
+		#self.currentScale = 1
+		#self.translateX = 80
+		#self.translateY = 80
 
 
 		self.refreshDisplay()
@@ -68,9 +68,9 @@ class NavigationDisplay(Frame):
 
 	def refreshDisplay(self):
 		print("in refresh display")
-		#TMPself.translate()
+		self.translate() 
 		#TMProtate*self.rotate()
-		#TMPself.scale()   
+		self.scale()    
 
 		#self.canvas.create_line( 0 , 0 , 500 , 500 , fill = "#ffff33" , width = 3 )
 

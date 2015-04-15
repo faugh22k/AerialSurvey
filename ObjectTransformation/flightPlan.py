@@ -43,7 +43,7 @@ class FlightPlan():
 		maxY = float("-inf") 
 
 		for shape in self.lines:
-			points = shape.points() 
+			points = shape.getPoints()  
 
 			for point in points:
 				minX = min(point.x, minX)
@@ -53,7 +53,7 @@ class FlightPlan():
 				maxY = max(point.y, maxY)
 
 		for shape in self.ramps:
-			points = shape.points() 
+			points = shape.getPoints()  
 
 			for point in points:
 				minX = min(point.x, minX)
@@ -76,7 +76,7 @@ class FlightPlan():
 		widthRatio = canvasWidth/dimensions[0]
 		heightRatio = canvasHeight/dimensions[1]
 
-		return min(widthRatio, heightRatio)
+		return min(widthRatio, heightRatio) 
 
 	def getInitialTranslation(self):
 		return (self.minX, self.minY)

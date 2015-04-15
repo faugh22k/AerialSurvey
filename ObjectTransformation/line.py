@@ -33,9 +33,9 @@ class Line() :
 		self.colour = lineColour
 		self.weight = lineWeight
 
-		# calculating line angle
+		# calculating line angle - y-axis faces top
 		deltaX = self.point2.getX() - self.point1.getX()
-		deltaY = self.point2.getY() - self.point1.getY()
+		deltaY = self.point1.getY() - self.point2.getY()
 		self.angle = math.atan2( deltaX , deltaY )
 
 
@@ -66,14 +66,19 @@ class Line() :
 	# --- Others -------------------------------------------------- #
 
 	def paint( self , canvas ) :
+		print("...\nline: ({0}, {1})  ({2}, {3})".format(self.point1.x, self.point1.y, self.point2.x, self.point2.y))
 		canvas.create_line( self.point1.getX() , self.point1.getY() , self.point2.getX() , self.point2.getY() , fill = self.colour , width = self.weight )
 
 
 	# --- Getters ------------------------------------------------- #
 
-	def angle( self ) :
+	def getAngle( self ) :
 		return self.angle 
 
-	def points(self):
+
+	def getPoints(self):
 		return (self.point1, self.point2)
+
+
+
 
