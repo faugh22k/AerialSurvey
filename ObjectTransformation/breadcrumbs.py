@@ -22,14 +22,7 @@ class Breadcrumbs() :
 		# for dashed lines or dots with even intervals - need to determine length, lines drawn accordingly
 		# angle between vectors: v dot w = |v| |w| cos(theta)
 
-		self.path.append( Point(point, self.color, self.pointSize) ) 
-
-
-	#def drawLatestPoint( self , canvas ) :
-	#	# draws the most recently-added point
-	#	point = self.path[-1] 
-	#	canvas.create_line( point.getX() , point.getY() , point.getX() , point.getY() + 3 , fill = "#68a83d" , width = 3 )
-
+		self.path.append( Point(point, self.color, self.pointSize) )  
 
 	def translate(self, x, y):
 		for point in self.path:

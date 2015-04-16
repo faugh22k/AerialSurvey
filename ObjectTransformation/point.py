@@ -18,6 +18,16 @@ class Point() :
 	x = None
 	y = None
 
+	displayX = None
+	displayY = None
+
+	translateX = None
+	translateY = None
+
+	scale = None
+
+	rotation = None
+
 
 	def __init__( self , geoPt , ptColour , ptWeight ) :
 		"""
@@ -70,6 +80,8 @@ class Point() :
 
 		self.x = xNew + center[0]
 		self.y = yNew + center[1]
+
+
 
 
 	def translate( self , factorX , factorY ) :

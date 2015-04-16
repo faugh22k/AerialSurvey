@@ -18,6 +18,14 @@ class Line() :
 	angle = None
 
 
+	translateX = None
+	translateY = None
+
+	scale = None
+
+	rotation = None
+
+
 	# --- Constructor --------------------------------------------- #
 
 	def __init__( self , geoPt1 , geoPt2 , lineColour , lineWeight ) :
