@@ -3,7 +3,7 @@ from Tkinter import *
 from flightPlan import *
 from breadcrumbs import *
 
-class NavigationDisplay(Frame):
+class NavigationManager(Frame):
 
 	flightPlan = None 
 	breadcrumbs = None 
@@ -13,8 +13,18 @@ class NavigationDisplay(Frame):
 	linesFileName = None
 
 	canvas = None
-	canvas_width = 500
-	canvas_height = 500
+	canvas_width = None
+	canvas_height = None 
+
+	# colour variables
+	colour_background = None
+	colour_breadcrumbs = None
+	colour_flightlines = None
+	colour_ramps = None
+
+	# weight variables
+	weight_breadcrumbs = None
+	weight_flightplan = None
 
 	currentScale = 1
 	centerX = 0
@@ -22,14 +32,25 @@ class NavigationDisplay(Frame):
 	rotation = 0
 	groundSpeed = 0
 
-	def __init__(self, linesFileName="campus/test_flightlines.shp", rampsFileName="campus/ramps.shp"):
-		Frame.__init__(self, None) # (self, master)
-		self.grid()
+	def __init__(self, master, canvas_width, canvas_height, linesFileName, rampsFileName, colour_flightlines, colour_ramps, colour_breadcrumbs, colour_background, weight_flightplan, weight_breadcrumbs):
+		Frame.__init__(self, master) # (self, master)
+		self.pack()
+
+		self.canvas_width = canvas_width
+		self.canvas_height = canvas_height
 
 		self.initWindow()
 
 		self.linesFileName = linesFileName
 		self.rampsFileName = rampsFileName
+
+		self.colour_flightlines = colour_flightlines
+		self.colour_ramps = colour_ramps
+		self.colour_breadcrumbs = colour_breadcrumbs
+		self.colour_background = colour_background
+
+		self.weight_flightplan = weight_flightplan
+		self.weight_breadcrumbs = weight_breadcrumbs
 
 		self.flightPlan = FlightPlan(self.linesFileName, self.linesFileName, self.canvas)
 		
@@ -60,17 +81,17 @@ class NavigationDisplay(Frame):
 		#textGroundSpeed = Text( self ) 
 		#textGroundSpeed.insert(INSERT,"Ground Speed")
 
-		self.canvas.grid()
-		zoomInButton.grid()
-		zoomOutButton.grid()
+		self.canvas.pack()
+		zoomInButton.pack()
+		zoomOutButton.pack()
 		#textGroundSpeed.grid()
 
 
 	def refreshDisplay(self):
 		print("in refresh display")
-		self.translate() 
+		#self.translate() 
 		#TMProtate*self.rotate()
-		self.scale()    
+		#self.scale()    
 
 		#self.canvas.create_line( 0 , 0 , 500 , 500 , fill = "#ffff33" , width = 3 )
 
@@ -131,9 +152,9 @@ class NavigationDisplay(Frame):
 
 if __name__ == "__main__":
     # Starts the program.
-    navigationDisplay = NavigationDisplay() 
-    navigationDisplay.mainloop()
-    navigationDisplay.run()
+    navigationManager = NavigationManager() 
+    navigationManager.mainloop()
+    navigationManager.run()
 
 
 

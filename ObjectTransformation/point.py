@@ -51,6 +51,14 @@ class Point() :
 
 	# --- Transformation Methods ---------------------------------- #
 
+	def calculateXY( self , scale , rotation , centerLatLong , centerXY ) :
+
+		# shift pt to center at
+		x1 = self.x - center[0]
+		y1 = self.y - center[1]
+
+
+
 	def rotate( self , angle , center ) :
 		# using rotation in 2-dimensions (euclidian)
 		# x' = xcos(theta) - ysin(theta)
