@@ -1,3 +1,4 @@
+import Tkinter as tk
 from Tkinter import *
 import ttk
 from tkColorChooser import askcolor
@@ -14,6 +15,9 @@ class PreFlightMode(Frame) :
 	colour_flightlines = "#ffff33"
 	colour_ramps = "#ff0000"
 
+	#colorSelectionArea = None
+	colorSelectionAreaWidgets = []
+
 	displayColorBackground = None
 	displayColorBreadcrumbs = None
 	displayColorFlightlines = None
@@ -24,6 +28,8 @@ class PreFlightMode(Frame) :
 
 	displayFileFlightlines = None
 	displayFileFlightramps = None
+
+	fileTypeOptions = [("Flightplan Files", "*.shp")]
 
 	# weight variables
 	weight_breadcrumbs = 5
@@ -43,14 +49,14 @@ class PreFlightMode(Frame) :
 		if (master is None): 
 			master = self
 		self.root = master
-		self.pack()
+		#self.pack()
 		self.listening = listening
 		self.initWindow()
 
 
 	def initWindow(self): 
 		colorSelectionArea = self.initColorSelectionArea(self.root)
-		colorSelectionArea.pack(ipady = 3)
+		colorSelectionArea.pack(ipady = 3, fill=tk.BOTH)
 
 		weightSelectionArea = self.initWeightSelectionArea(self.root)
 		weightSelectionArea.pack(ipady = 3)
@@ -58,12 +64,12 @@ class PreFlightMode(Frame) :
 		fileSelectionArea = self.initFileSelectionArea(self.root)
 		fileSelectionArea.pack(ipady = 3)
 
-		complete = Button(self, text="Enter Flight Mode", command = self.finish)
-		complete.pack(ipady = 5)  
+		#complete = Button(self, text="Enter Flight Mode", command = self.finish)
+		#complete.pack(ipady = 5)  
 
 
 	def initColorSelectionArea(self, master):
-		colorSelectionArea = Frame(master)
+		colorSelectionArea = Frame(master, background = self.colour_background) 
 
 		linesSelect = self.createColorSelectFrame(colorSelectionArea, "flightlines color", self.colour_flightlines, self.changeLinesColor)
 		linesColorSelect = linesSelect[0]
@@ -83,12 +89,22 @@ class PreFlightMode(Frame) :
 
 		label = Label(colorSelectionArea, text="Choose Display Colors")
 
-		label.pack(side=TOP, ipady=5)
+		label.pack(side=TOP, ipady=5, fill=tk.BOTH)
 
 		linesColorSelect.pack()#side=LEFT)
 		rampsColorSelect.pack()#side=LEFT)
 		breadcrumbsColorSelect.pack()#side=LEFT)
 		backgroundColorSelect.pack()#side=LEFT)
+
+		self.colorSelectionAreaWidgets = [colorSelectionArea, label]#[colorSelectionArea, linesSelect, rampsSelect, breadcrumbsSelect, backgroundSelect]
+
+		for item in self.colorSelectionAreaWidgets:
+			print(item)
+			if isinstance(item, tuple):
+				for widget in item:
+					widget.config(background = self.colour_background)
+			else:
+				item.config(background = self.colour_background)
 
 		return colorSelectionArea
 
@@ -182,22 +198,33 @@ class PreFlightMode(Frame) :
 
 
 	def changeRampsColor(self):
-		color = askcolor(self.colour_ramps)
+		color = askcolor(self.colour_ramps) 
+		if color[1] is None:
+			return
 		self.colour_ramps = color[1]
 		self.displayColorRamps.config(background = color[1])
 
 	def changeLinesColor(self):
-		color = askcolor(self.colour_flightlines)
+		color = askcolor(self.colour_flightlines) 
+		if color[1] is None:
+			return
 		self.colour_flightlines = color[1]
 		self.displayColorFlightlines.config(background = color[1])
 
 	def changeBackgroundColor(self):
-		color = askcolor(self.colour_background)
+		color = askcolor(self.colour_background) 
+		if color[1] is None:
+			return
 		self.colour_background = color[1]
 		self.displayColorBackground.config(background = color[1])
+		for widget in self.colorSelectionAreaWidgets:
+			print("updating backrounds")
+			widget.config(background = color[1])#"#CCFF66") 
 
 	def changeBreadcrumbsColor(self):
-		color = askcolor(self.colour_breadcrumbs)
+		color = askcolor(self.colour_breadcrumbs)  
+		if color[1] is None:
+			return
 		self.colour_breadcrumbs = color[1]
 		self.displayColorBreadcrumbs.config(background = color[1])
 
@@ -208,12 +235,12 @@ class PreFlightMode(Frame) :
 		return int(self.displayWeightBreadcrumbs.get()) 
 
 	def chooseFlightlinesFile(self):
-		path = tkFileDialog.askopenfilename()
+		path = tkFileDialog.askopenfilename(filetypes = self.fileTypeOptions)
 		self.filepath_flightlines = path
 		self.displayFileFlightlines.insert(INSERT, path)
 
 	def chooseFlightrampsFile(self):
-		path = tkFileDialog.askopenfilename()
+		path = tkFileDialog.askopenfilename(filetypes = self.fileTypeOptions)
 		self.filepath_ramps = path 
 		self.displayFileFlightramps.insert(INSERT, path)
 

@@ -8,8 +8,11 @@ class Breadcrumbs() :
 	pointSize = 5
 	pointColor = "#135e1c" 
 
-	def __init__( self ) :
+	def __init__( self, pointColor, pointSize ) :
 		self.path = [] 
+
+		self.pointColor = pointColor
+		self.pointSize = pointSize 
 
 		# for initial test data
 		#self.path = [Point((-72.5753720000,42.2553930000), self.pointColor, self.pointSize) , Point((-72.5753735000,42.2553950000), self.pointColor, self.pointSize)]

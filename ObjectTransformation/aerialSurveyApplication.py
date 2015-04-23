@@ -23,14 +23,23 @@ class AerialSurveyApplication(Frame):
 	weight_breadcrumbs = 5
 	weight_flightplan = 2
 
+	#outermostFrame = None
 	preflightMode = None
 	navigationManager = None
 
 
 	def __init__(self):
-		Frame.__init__(self, None)
+		Frame.__init__(self, None, width=600, height=900)
 		self.pack()
-		self.preflightMode = PreFlightMode(self, self)
+		self.preflightFrame = Frame(self)
+		
+		self.preflightMode = PreFlightMode(self.preflightFrame, self)
+		button = Button(self.preflightFrame, text="Enter Flight Mode", command = self.leavePreFlightMode)
+		
+		self.preflightMode.pack(side=TOP)
+		button.pack(side=BOTTOM)
+		
+		self.preflightFrame.pack(in_=self)
 
 	def leavePreFlightMode(self):
 		print ("leave pre flight mode")
@@ -45,11 +54,18 @@ class AerialSurveyApplication(Frame):
 			tkMessageBox.showinfo("Please Review Your Selections", "Drawing weights must be integers more than or equal to 1.")
 			return
 
+		self.weight_flightplan = flightplanWeight
+		self.weight_breadcrumbs = breadcrumbsWeight
+		print("line weight {0}, breadcrumb weight {1}".format(self.weight_flightplan, self.weight_breadcrumbs))
+
 		self.linesFileName = self.preflightMode.getFlightrampsFile()
 		self.rampsFileName = self.preflightMode.getFlightlinesFile()
 
-		if (self.linesFileName == "" or self.rampsFileName == ""):
+		if (self.linesFileName == "" or self.rampsFileName == ""): 
 			tkMessageBox.showinfo("Please Review Your Selections", "Please select both Ramps and Flightlines Files.")
+			return
+		if (self.linesFileName == self.rampsFileName):
+			tkMessageBox.showinfo("Please Review Your Selections", "Please select two separate Ramps and Flightlines Files.")
 			return
  		     
 		self.colour_flightlines = self.preflightMode.getColorFlightlines()
@@ -63,9 +79,13 @@ class AerialSurveyApplication(Frame):
 
 	def switchModes(self):
 		self.preflightMode.remove()
-		#self.preflightMode.pack_forget() 
-		#self.preflightMode.destroy() 
+		self.preflightMode.pack_forget() 
+		self.preflightMode.destroy() 
+		self.preflightFrame.pack_forget()
+		self.preflightFrame.destroy()
+		#self.pack_forget() 
 		self.navigationManager = NavigationManager(self, self.canvas_width, self.canvas_height, self.linesFileName, self.rampsFileName, self.colour_flightlines, self.colour_ramps, self.colour_breadcrumbs, self.colour_background, self.weight_flightplan, self.weight_breadcrumbs)
+		self.navigationManager.place(in_=self)
 		self.pack()
 
 

@@ -29,18 +29,18 @@ class NavigationManager(Frame):
 	currentScale = 1
 	centerX = 0
 	centerY = 0
+	translateX = 0
+	translateY = 0 
 	rotation = 0
 	groundSpeed = 0
 
 	def __init__(self, master, canvas_width, canvas_height, linesFileName, rampsFileName, colour_flightlines, colour_ramps, colour_breadcrumbs, colour_background, weight_flightplan, weight_breadcrumbs):
 		Frame.__init__(self, master) # (self, master)
-		self.pack()
+		#self.pack()
 
 		self.canvas_width = canvas_width
 		self.canvas_height = canvas_height
-
-		self.initWindow()
-
+ 		 
 		self.linesFileName = linesFileName
 		self.rampsFileName = rampsFileName
 
@@ -51,15 +51,17 @@ class NavigationManager(Frame):
 
 		self.weight_flightplan = weight_flightplan
 		self.weight_breadcrumbs = weight_breadcrumbs
-
-		self.flightPlan = FlightPlan(self.linesFileName, self.linesFileName, self.canvas)
+		
+		self.initWindow()
+		
+		self.flightPlan = FlightPlan(self.linesFileName, self.linesFileName, self.colour_flightlines, self.colour_ramps, self.weight_flightplan, self.canvas)
 		
 		self.currentScale = self.flightPlan.calculateInitialScale(self.canvas_width, self.canvas_height)
 		translation = self.flightPlan.getInitialTranslation()
 		self.centerX = translation[0]
 		self.centerY = translation[1]
 
-		self.breadcrumbs = Breadcrumbs() 
+		self.breadcrumbs = Breadcrumbs(self.colour_breadcrumbs, self.weight_breadcrumbs) 
 		#TMPgps*self.gpsReader = GPSReader()
 		#TMPgps*self.gpsReader.initConnections() 
 
@@ -73,7 +75,7 @@ class NavigationManager(Frame):
 		self.refreshDisplay()
 
 	def initWindow(self):
-		self.canvas = Canvas( self , width = self.canvas_width , height = self.canvas_height )
+		self.canvas = Canvas( self , width = self.canvas_width , height = self.canvas_height, background = self.colour_background )
 
 		zoomInButton = Button( self, text="+", command=self.zoomIn ) 
 		zoomOutButton = Button( self, text="-", command=self.zoomIn ) 

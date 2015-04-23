@@ -6,15 +6,19 @@ from line import *
 class FlightPlan():
 
 	canvas = None
-	lineColor = "#ffff33"
-	rampColor = "#ff0000"
-	drawingWidth = 2
+	lineColor = None#"#ffff33"
+	rampColor = None#"#ff0000"
+	drawingWidth = None#2
 
-	def __init__(self, fileNameLines, fileNameRamps, canvas):
+	def __init__(self, fileNameLines, fileNameRamps, lineColor, rampColor, drawingWidth, canvas): 
 		lines = shapefile.Reader(fileNameLines)
 		ramps = shapefile.Reader(fileNameRamps)
 
 		self.canvas = canvas
+
+		self.lineColor = lineColor
+		self.rampColor = rampColor
+		self.drawingWidth = drawingWidth
 
 		self.lines = []
 		self.ramps = [] 
