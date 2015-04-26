@@ -53,13 +53,27 @@ class Point() :
 
 	def calculateXY( self , scale , rotation , centerLatLong , centerXY ) :
 
-		# shift pt to center at
-		x1 = self.x - center[0]
-		y1 = self.y - center[1]
+		# lat/long of this, where: lat/long of center -> (0,0)
+		x1 = self.latitude - centerLatLong[0]
+		y1 = self.longitude - centerLatLong[1]
 
+		# scale
+		x1 *= scale
+		y1 *= scale
+
+		# rotate so plane faces top of canvas
+		xRotate = x1 * math.cos(rotation) - y1 * math.sin(rotation)
+		yRotate = x1 * math.sin(rotation) + y1 * math.cos(rotation)
+
+		# translate so that center is in middle of canvas
+		self.x = xRotate + centerXY[0]
+		self.y = yRotate + centerXY[1]
 
 
 	def rotate( self , angle , center ) :
+		"""
+		MAY BE BROKEN
+		"""
 		# using rotation in 2-dimensions (euclidian)
 		# x' = xcos(theta) - ysin(theta)
 		# y' = xsin(theta) + ycos(theta)
@@ -76,6 +90,7 @@ class Point() :
 
 	def scale( self , magnitude , center ) :
 		"""
+		MAY BE BROKEN
 		@param magnitude :
 		@param center :
 		"""
@@ -88,12 +103,12 @@ class Point() :
 
 		self.x = xNew + center[0]
 		self.y = yNew + center[1]
-
-
+	
 
 
 	def translate( self , factorX , factorY ) :
 		"""
+		MAY BE BROKEN
 		@param factorX :
 		@param factorY :
 		"""
@@ -124,4 +139,3 @@ class Point() :
 
 	def getLongitude( self ) :
 		return self.longitude
-

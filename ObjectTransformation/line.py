@@ -49,6 +49,11 @@ class Line() :
 
 	# --- Transformation Methods ---------------------------------- #
 
+	def calculateXY( self , scale , rotation , centerLatLong , centerXY ) :
+		self.point1.calculateXY( scale , rotation , centerLatLong , centerXY )
+		self.point2.calculateXY( scale , rotation , centerLatLong , centerXY )
+
+
 	def rotate( self , rotation , center ) :
 		"""
 		Rotate about a certain point, center
@@ -75,6 +80,8 @@ class Line() :
 
 	def paint( self , canvas ) :
 		print("...\nline: ({0}, {1})  ({2}, {3})".format(self.point1.x, self.point1.y, self.point2.x, self.point2.y))
+		self.point1.calculateXY( ... )
+		self.point2.calculateXY( ... )
 		canvas.create_line( self.point1.getX() , self.point1.getY() , self.point2.getX() , self.point2.getY() , fill = self.colour , width = self.weight )
 
 
@@ -86,7 +93,6 @@ class Line() :
 
 	def getPoints(self):
 		return (self.point1, self.point2)
-
 
 
 
