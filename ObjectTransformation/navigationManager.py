@@ -26,11 +26,9 @@ class NavigationManager(Frame):
 	weight_breadcrumbs = None
 	weight_flightplan = None
 
-	currentScale = 1
-	centerX = 0
-	centerY = 0
-	translateX = 0
-	translateY = 0 
+	scale = 1
+	centerXY = None
+	centerLatLong = None # (latitude, longitude)
 	rotation = 0
 	groundSpeed = 0
 
@@ -56,10 +54,16 @@ class NavigationManager(Frame):
 		
 		self.flightPlan = FlightPlan(self.linesFileName, self.linesFileName, self.colour_flightlines, self.colour_ramps, self.weight_flightplan, self.canvas)
 		
-		self.currentScale = self.flightPlan.calculateInitialScale(self.canvas_width, self.canvas_height)
-		translation = self.flightPlan.getInitialTranslation()
-		self.centerX = translation[0]
-		self.centerY = translation[1]
+		self.scale = self.flightPlan.calculateInitialScale(self.canvas_width, self.canvas_height)
+		self.centerLatLong = self.flightPlan.getInitialTranslation()
+		print("\nstarting center lat long: {0}".format(self.centerLatLong))
+		print("starting scale: {0}".format(self.scale)) 
+		
+		# needs to be after canvas added to screen (in initWindow)
+		canvasWidth = self.canvas.winfo_width()
+		canvasHeight = self.canvas.winfo_height()
+		print("  canvas width: {0}\n  canvas height: {1}".format(canvasWidth, canvasHeight))
+		self.centerXY = (canvasWidth/2, canvasHeight/2) 
 
 		self.breadcrumbs = Breadcrumbs(self.colour_breadcrumbs, self.weight_breadcrumbs) 
 		#TMPgps*self.gpsReader = GPSReader()
@@ -67,7 +71,7 @@ class NavigationManager(Frame):
 
 
 		# TMPdefaults*
-		#self.currentScale = 1
+		#self.scale = 1
 		#self.translateX = 80
 		#self.translateY = 80
 
@@ -78,7 +82,7 @@ class NavigationManager(Frame):
 		self.canvas = Canvas( self , width = self.canvas_width , height = self.canvas_height, background = self.colour_background )
 
 		zoomInButton = Button( self, text="+", command=self.zoomIn ) 
-		zoomOutButton = Button( self, text="-", command=self.zoomIn ) 
+		zoomOutButton = Button( self, text="-", command=self.zoomOut ) 
 
 		#textGroundSpeed = Text( self ) 
 		#textGroundSpeed.insert(INSERT,"Ground Speed")
@@ -90,32 +94,43 @@ class NavigationManager(Frame):
 
 
 	def refreshDisplay(self):
-		print("in refresh display")
-		#self.translate() 
-		#TMProtate*self.rotate()
-		#self.scale()    
+		print("in refresh display")  
+
+		self.canvas.delete("all")
+
+		canvasWidth = self.canvas.winfo_width()
+		canvasHeight = self.canvas.winfo_height()
+		print("  canvas width: {0}\n  canvas height: {1}".format(canvasWidth, canvasHeight))
+		self.centerXY = (canvasWidth/2, canvasHeight/2) 
+		print("  canvas center:  {0} \n ".format(self.centerXY)) 
 
 		#self.canvas.create_line( 0 , 0 , 500 , 500 , fill = "#ffff33" , width = 3 )
 
 		#self.canvas.create_line( self.translateX , self.translateY , self.translateX+200 , self.translateY+200 , fill = "#ff0000" , width = 3 ) 
 
-		self.flightPlan.paint(self.canvas)
-		self.breadcrumbs.paint(self.canvas)
+		self.flightPlan.paint( self.canvas, self.scale, self.rotation, self.centerLatLong, self.centerXY )
+		self.breadcrumbs.paint( self.canvas, self.scale, self.rotation, self.centerLatLong, self.centerXY ) 
 
-	def translate(self): 
-		print("translating by {0}, {1}".format(self.translateX, self.translateY))
-		self.breadcrumbs.translate(self.translateX, self.translateY)
-		self.flightPlan.translate(self.translateX, self.translateY) 
+		#testPoint = Point((-72.57663069977029, 35), "#59DE42", 6)
+		#testPoint.paint( self.canvas, self.scale, self.rotation, self.centerLatLong, self.centerXY )
 
-	def scale(self): 
-		print("scaling by {0}".format(self.currentScale))
-		self.breadcrumbs.scale(self.currentScale, (self.centerX, self.centerY))
-		self.flightPlan.scale(self.currentScale, (self.centerX, self.centerY))
+		#self.canvas.create_line( self.centerXY[0] , self.centerXY[1] , self.centerXY[0] , self.centerXY[1]+3 , fill = "#FF0066" , width = 3 )
+		
 
-	def rotate(self): 
-		print("rotating by {0}".format(self.rotation))
-		self.breadcrumbs.rotate(self.rotation)
-		self.flightPlan.rotate(self.rotation) 
+	#def translate(self): 
+	#	print("translating by {0}, {1}".format(self.translateX, self.translateY))
+	#	self.breadcrumbs.translate(self.translateX, self.translateY)
+	#	self.flightPlan.translate(self.translateX, self.translateY) 
+	#
+	#def scale(self): 
+	#	print("scaling by {0}".format(self.scale))
+	#	self.breadcrumbs.scale(self.scale, (self.centerX, self.centerY))
+	#	self.flightPlan.scale(self.scale, (self.centerX, self.centerY))
+	#
+	#def rotate(self): 
+	#	print("rotating by {0}".format(self.rotation))
+	#	self.breadcrumbs.rotate(self.rotation)
+	#	self.flightPlan.rotate(self.rotation) 
 
 	def zoomIn(self):
 		self.zoom(1.1)
@@ -125,26 +140,27 @@ class NavigationManager(Frame):
 		self.zoom(0.9)
 
 	def zoom(self, factor):
-		self.currentScale *= factor
+		self.scale *= factor
+		print("...\n  new scale: {0}\n...".format(self.scale))
+		self.refreshDisplay()
 
 	def newGPSData(self):
-		#TMPgps*longLat = self.gpsReader.getLongLat() 
+		#self.centerLatLong = self.gpsReader.getLongLat() 
 
-		self.breadcrumbs.addPoint(longLat)
-		self.centerX = longLat[1]
-		self.centerY = longLat[0] 
+		self.breadcrumbs.addPoint(self.centerLatLong) 
 
-		#TMPgps*self.rotation = self.gpsReader.getBearing()
-		#TMPgps*self.groundSpeed = self.gpsReader.getGroundSpeed()
+		#self.rotation = self.gpsReader.getBearing()
+		#self.groundSpeed = self.gpsReader.getGroundSpeed()
 
 	def run(self):
-		print("in run")
+		print("\n\nin run")
 		#self.mainloop()
 
 		#while True:
 		#	#TMPgps*self.newGPSData()
 		#
 		#	self.refreshDisplay()
+		self.refreshDisplay()
 
 
 

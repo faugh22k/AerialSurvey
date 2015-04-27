@@ -54,34 +54,32 @@ class Line() :
 		self.point2.calculateXY( scale , rotation , centerLatLong , centerXY )
 
 
-	def rotate( self , rotation , center ) :
-		"""
-		Rotate about a certain point, center
-		@param rotation: the angle to rotate this line with, in radians
-		@param center: The point to rotate this line about
-		"""
-		self.angle += rotation
+	# def rotate( self , rotation , center ) :
+	# 	"""
+	# 	Rotate about a certain point, center
+	# 	@param rotation: the angle to rotate this line with, in radians
+	# 	@param center: The point to rotate this line about
+	# 	"""
+	# 	self.angle += rotation
 
-		self.point1.rotate( rotation , center )
-		self.point2.rotate( rotation , center )
+	# 	self.point1.rotate( rotation , center )
+	# 	self.point2.rotate( rotation , center )
 
 
-	def scale( self , factor , center ) :
-		self.point1.scale( factor , center )
-		self.point2.scale( factor , center )
+	# def scale( self , factor , center ) :
+	# 	self.point1.scale( factor , center )
+	# 	self.point2.scale( factor , center )
 		
 
-	def translate( self , factorX , factorY ) :
-		self.point1.translate( factorX , factorY )
-		self.point2.translate( factorX , factorY )
+	# def translate( self , factorX , factorY ) :
+	# 	self.point1.translate( factorX , factorY )
+	# 	self.point2.translate( factorX , factorY )
 
 
 	# --- Others -------------------------------------------------- #
 
-	def paint( self , canvas ) :
-		print("...\nline: ({0}, {1})  ({2}, {3})".format(self.point1.x, self.point1.y, self.point2.x, self.point2.y))
-		self.point1.calculateXY( ... )
-		self.point2.calculateXY( ... )
+	def paint( self , canvas , scale , rotation , centerLatLong , centerXY ) : 
+		self.calculateXY( scale , rotation , centerLatLong , centerXY ) 
 		canvas.create_line( self.point1.getX() , self.point1.getY() , self.point2.getX() , self.point2.getY() , fill = self.colour , width = self.weight )
 
 

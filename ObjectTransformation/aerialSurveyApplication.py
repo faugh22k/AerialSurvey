@@ -4,7 +4,7 @@ from preflightMode import *
 from navigationManager import *
 
 
-class AerialSurveyApplication(Frame):
+class AerialSurveyApplication(Tk):
 
 	rampsFileName = None
 	linesFileName = None
@@ -29,9 +29,10 @@ class AerialSurveyApplication(Frame):
 
 
 	def __init__(self):
-		Frame.__init__(self, None, width=600, height=900)
-		self.pack()
-		self.preflightFrame = Frame(self)
+		Tk.__init__(self)#, None, width=1000, height=1000) 
+		#self.pack() 
+		self.geometry("700x900")
+		self.preflightFrame = Frame(self, width=1000, height=1000)
 		
 		self.preflightMode = PreFlightMode(self.preflightFrame, self)
 		button = Button(self.preflightFrame, text="Enter Flight Mode", command = self.leavePreFlightMode)
@@ -86,7 +87,9 @@ class AerialSurveyApplication(Frame):
 		#self.pack_forget() 
 		self.navigationManager = NavigationManager(self, self.canvas_width, self.canvas_height, self.linesFileName, self.rampsFileName, self.colour_flightlines, self.colour_ramps, self.colour_breadcrumbs, self.colour_background, self.weight_flightplan, self.weight_breadcrumbs)
 		self.navigationManager.place(in_=self)
-		self.pack()
+		#self.pack()
+		self.update()
+		self.navigationManager.run()
 
 
 
