@@ -55,7 +55,8 @@ class NavigationManager(Frame):
 		self.flightPlan = FlightPlan(self.linesFileName, self.rampsFileName, self.colour_flightlines, self.colour_ramps, self.weight_flightplan, self.canvas)
 		
 		self.scale = self.flightPlan.calculateInitialScale(self.canvas_width, self.canvas_height)
-		self.centerLatLong = self.flightPlan.getInitialTranslation()
+		self.centerLatLong = self.flightPlan.getInitialTranslation()  # we want to quickly overwrite this with a point from the gps
+		
 		print("\nstarting center lat long: {0}".format(self.centerLatLong))
 		print("starting scale: {0}".format(self.scale)) 
 		
@@ -68,7 +69,7 @@ class NavigationManager(Frame):
 		self.breadcrumbs = Breadcrumbs(self.colour_breadcrumbs, self.weight_breadcrumbs) 
 		#TMPgps*self.gpsReader = GPSReader()
 		#TMPgps*self.gpsReader.initConnections() 
-
+		self.breadcrumbs.addPoint(self.centerLatLong) # TMP hardcoded temporary TODO
 
 		# TMPdefaults*
 		#self.scale = 1
