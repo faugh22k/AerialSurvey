@@ -52,7 +52,7 @@ class NavigationManager(Frame):
 		
 		self.initWindow()
 		
-		self.flightPlan = FlightPlan(self.linesFileName, self.linesFileName, self.colour_flightlines, self.colour_ramps, self.weight_flightplan, self.canvas)
+		self.flightPlan = FlightPlan(self.linesFileName, self.rampsFileName, self.colour_flightlines, self.colour_ramps, self.weight_flightplan, self.canvas)
 		
 		self.scale = self.flightPlan.calculateInitialScale(self.canvas_width, self.canvas_height)
 		self.centerLatLong = self.flightPlan.getInitialTranslation()

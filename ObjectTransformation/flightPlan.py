@@ -29,15 +29,17 @@ class FlightPlan():
 
 		#self.ramps.append( Line( (25,35), (30,40), self.rampColor, self.drawingWidth))  
 		#self.ramps.append( Line( (305,405), (310,410), self.rampColor, self.drawingWidth))  
-
-		for shape in lines.shapes():
+		print("^^^")
+		for shape in lines.shapes(): 
 			points = shape.points
+			print("line: {0}".format(points))
 			self.lines.append(Line((points[0][0] , points[0][1]) , (points[1][0] , points[1][1]), self.lineColor, self.drawingWidth))  
-		
+		print("**********")
 		for shape in ramps.shapes(): 
 			points = shape.points
+			print("ramp: {0}".format(points))
 			self.ramps.append(Line((points[0][0] , points[0][1]) , (points[1][0] , points[1][1]), self.rampColor, self.drawingWidth))  
-
+		print("^^^")
 		self.getWidthHeight()
 
 
