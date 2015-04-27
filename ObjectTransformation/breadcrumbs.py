@@ -15,7 +15,7 @@ class Breadcrumbs() :
 		self.pointSize = pointSize 
 
 		# for initial test data
-		self.path = [Point((-72.5753720000,42.2553930000), self.pointColor, self.pointSize) , Point((-72.5753735000,42.2553950000), self.pointColor, self.pointSize)]
+		#self.path = [Point((-72.5753720000,42.2553930000), self.pointColor, self.pointSize) , Point((-72.5753735000,42.2553950000), self.pointColor, self.pointSize)]
 		#self.path = [Point((20,20), self.pointColor, self.pointSize) , Point((30,25), self.pointColor, self.pointSize), Point((0,0), self.pointColor, self.pointSize), Point((250,400), self.pointColor, self.pointSize)]
 
 	def addPoint( self , point ) :
@@ -38,10 +38,11 @@ class Breadcrumbs() :
 
 	def paint( self , canvas , scale , rotation , centerLatLong , centerXY ) :
 		print("  painting breadcrumbs")
-		# draws every third point
+		# draws every third point, starting from the most recently added
 		pointNumber = 0
-		for point in self.path:
-			if pointNumber % 3 == 0:
-				point.paint(canvas , scale , rotation , centerLatLong , centerXY )
+		for point in reversed(self.path):
+			if pointNumber % 3 == 0: 
+				point.paint(canvas , scale , rotation , centerLatLong , centerXY )  
+			pointNumber += 1
 
 	

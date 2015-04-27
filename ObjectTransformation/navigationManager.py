@@ -32,6 +32,8 @@ class NavigationManager(Frame):
 	rotation = 0
 	groundSpeed = 0
 
+	index = 0 # for temporary hardcoded breadcrumbs list
+
 	def __init__(self, master, canvas_width, canvas_height, linesFileName, rampsFileName, colour_flightlines, colour_ramps, colour_breadcrumbs, colour_background, weight_flightplan, weight_breadcrumbs):
 		Frame.__init__(self, master) # (self, master)
 		#self.pack()
@@ -147,9 +149,17 @@ class NavigationManager(Frame):
 
 	def newGPSData(self):
 		#self.centerLatLong = self.gpsReader.getLongLat() 
-
-		self.breadcrumbs.addPoint(self.centerLatLong) 
-
+		#self.breadcrumbs.addPoint(self.centerLatLong)
+		
+		
+		breadcrumbsFake = [(-72.57398,42.25478),(-72.57387,42.254746),(-72.57380,42.254724),(-72.57369,42.254687),(-72.57362,42.254665),(-72.57356,42.254646),(-72.57345,42.254609),(-72.57338,42.254586),(-72.57326,42.254549),  (-72.57294,42.254445)]
+		#if (self.index < len(breadcrumbsFake)):
+		self.centerLatLong = breadcrumbsFake[self.index]
+		self.index += 1 
+		print("new point: {0}".format(self.centerLatLong))
+		self.breadcrumbs.addPoint(self.centerLatLong)
+		
+		#self.breadcrumbs.addPoint(self.centerLatLong)
 		#self.rotation = self.gpsReader.getBearing()
 		#self.groundSpeed = self.gpsReader.getGroundSpeed()
 
@@ -157,11 +167,11 @@ class NavigationManager(Frame):
 		print("\n\nin run")
 		#self.mainloop()
 
-		#while True:
-		#	#TMPgps*self.newGPSData()
-		#
-		#	self.refreshDisplay()
-		self.refreshDisplay()
+		while True:
+			self.newGPSData() 
+
+			self.refreshDisplay() 
+		#self.refreshDisplay()
 
 
 
