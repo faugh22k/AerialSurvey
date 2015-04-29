@@ -81,6 +81,10 @@ class Point() :
 		self.x = xRotate + centerXY[0]
 		self.y = yRotate + centerXY[1]
 
+		# shift x and y so that the point is approximately at the center of drawn point
+		self.x -= weight * 0.5
+		self.y -= weight * 0.5
+
 		#print("\n   xRotate: {0}\n   yRotate: {1}".format(xRotate, yRotate))
 		print("   longitude: {0}\n   latitude: {1}".format(self.longitude, self.latitude))
 		print("   x: {0}\n   y: {1}\n^^^^^^^^^^^^^^^^^^^^^^^^\n".format(self.x, self.y)) 
