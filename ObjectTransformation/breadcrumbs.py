@@ -8,6 +8,10 @@ class Breadcrumbs() :
 	pointSize = 5
 	pointColor = "#135e1c" 
 
+	# breadcrumb drawing frequency - once every n points read from GPS
+	drawingFreq = 3
+
+
 	def __init__( self, pointColor, pointSize ) :
 		self.path = [] 
 
@@ -41,7 +45,7 @@ class Breadcrumbs() :
 		# draws every third point, starting from the most recently added
 		pointNumber = 0
 		for point in reversed(self.path):
-			if pointNumber % 3 == 0: 
+			if pointNumber % self.drawingFreq == 0: 
 				point.paint(canvas , scale , rotation , centerLatLong , centerXY )  
 			pointNumber += 1
 
