@@ -61,8 +61,8 @@ class Breadcrumbs() :
 		# draws every third point, starting from the most recently added
 		pointNumber = 0
 		for point in reversed(self.path):
-			if pointNumber % self.drawingFreq == 0: 
-				point.paint(canvas , scale , rotation , centerLatLong , centerXY )  
+			#if pointNumber % self.drawingFreq == 0: 
+			point.paint(canvas , scale , rotation , centerLatLong , centerXY )  
 			pointNumber += 1
 
 		# painting plane
