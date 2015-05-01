@@ -31,8 +31,13 @@ class AerialSurveyApplication(Tk):
 	def __init__(self):
 		Tk.__init__(self)#, None, width=1000, height=1000) 
 		#self.pack() 
-		self.geometry("700x900")
-		self.preflightFrame = Frame(self, width=1000, height=1000)
+
+		w, h = self.winfo_screenwidth(), self.winfo_screenheight()
+		#self.overrideredirect(1)
+		self.geometry("%dx%d+0+0" % (w, h))
+
+		#self.geometry("700x900")
+		#self.preflightFrame = Frame(self, width=1000, height=1000)
 		
 		self.preflightMode = PreFlightMode(self.preflightFrame, self)
 		button = Button(self.preflightFrame, text="Enter Flight Mode", command = self.leavePreFlightMode)
