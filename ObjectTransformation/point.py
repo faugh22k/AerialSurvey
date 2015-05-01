@@ -9,6 +9,7 @@ class Point() :
 	# for painting
 	colour = None
 	weight = None
+	toPaint = None
 
 	# Geographic latitude, longitude values of this point
 	latitude = None
@@ -47,6 +48,7 @@ class Point() :
 
 		self.colour = ptColour
 		self.weight = ptWeight
+		self.toPaint = True
 
 
 	# --- Transformation Methods ---------------------------------- #
@@ -136,14 +138,20 @@ class Point() :
 	# --- Others -------------------------------------------------- #
 	
 	def paint( self , canvas , scale , rotation , centerLatLong , centerXY ) :
-		self.calculateXY( scale , rotation , centerLatLong , centerXY )  
-	
-		self.x -= self.weight / 2
-		self.y -= self.weight / 2
+		if self.toPaint :
+			self.calculateXY( scale , rotation , centerLatLong , centerXY )  
+			
+			self.x -= self.weight / 2
+			self.y -= self.weight / 2
 
-		canvas.create_line( self.x , self.y , self.x , self.y + self.weight , fill = self.colour , width = self.weight )
-		print("drawing: xy: {0}\n        latLong: {1}".format((self.x,self.y),(self.latitude,self.longitude)))
+			canvas.create_line( self.x , self.y , self.x , self.y + self.weight , fill = self.colour , width = self.weight )
+			print("drawing: xy: {0}\n        latLong: {1}".format((self.x,self.y),(self.latitude,self.longitude)))
 
+
+	# --- Setters ------------------------------------------------- #
+
+	def setPaint( self , toPaint ) :
+		self.toPaint = toPaint 
 
 	# --- Getters ------------------------------------------------- #
 	

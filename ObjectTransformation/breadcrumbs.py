@@ -1,6 +1,5 @@
 from point import *
 from line import *
-import math
 #from gpsData import GPS
 
 class Breadcrumbs() : 
@@ -60,8 +59,8 @@ class Breadcrumbs() :
 
 		# painting plane
 		adjustedCenter = ( centerXY[0] - self.pointSize/2 , centerXY[1] - self.pointSize/2 )
-		#self.drawPlane( canvas , math.pi , adjustedCenter )
 		self.drawPlane( canvas , rotation , adjustedCenter )
+
 
 	def drawPlane( self , canvas , rotation , centerXY ) :
 		# plane: a set of 3 lines
