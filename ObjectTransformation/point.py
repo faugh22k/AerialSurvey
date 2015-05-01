@@ -82,30 +82,27 @@ class Point() :
 		self.y = yRotate + centerXY[1]
 
 		# shift x and y so that the point is approximately at the center of drawn point
-		self.x -= weight * 0.5
-		self.y -= weight * 0.5
+		print( "point weight = " + str(self.weight) )
 
 		#print("\n   xRotate: {0}\n   yRotate: {1}".format(xRotate, yRotate))
 		print("   longitude: {0}\n   latitude: {1}".format(self.longitude, self.latitude))
 		print("   x: {0}\n   y: {1}\n^^^^^^^^^^^^^^^^^^^^^^^^\n".format(self.x, self.y)) 
 
 
-	# def rotate( self , angle , center ) :
-	# 	"""
-	# 	MAY BE BROKEN
-	# 	"""
-	# 	# using rotation in 2-dimensions (euclidian)
-	# 	# x' = xcos(theta) - ysin(theta)
-	# 	# y' = xsin(theta) + ycos(theta)
-		
-	# 	x1 = self.x - center[0]
-	# 	y1 = self.y - center[1]
 
-	# 	xNew = x1 * math.cos(angle) - y1 * math.sin(angle)
-	# 	yNew = x1 * math.sin(angle) + y1 * math.cos(angle)
+	def rotate( self , angle , center ) :
+	 	# using rotation in 2-dimensions (euclidian)
+	 	# x' = xcos(theta) - ysin(theta)
+	 	# y' = xsin(theta) + ycos(theta)
+	
+	 	x1 = self.x - center[0]
+	 	y1 = self.y - center[1]
 
-	# 	self.x = xNew + center[0]
-	# 	self.y = yNew + center[1]
+	 	xNew = x1 * math.cos(angle) - y1 * math.sin(angle)
+	 	yNew = x1 * math.sin(angle) + y1 * math.cos(angle)
+
+	 	self.x = xNew + center[0]
+	 	self.y = yNew + center[1]
 
 
 	# def scale( self , magnitude , center ) :
@@ -140,6 +137,10 @@ class Point() :
 	
 	def paint( self , canvas , scale , rotation , centerLatLong , centerXY ) :
 		self.calculateXY( scale , rotation , centerLatLong , centerXY )  
+	
+		self.x -= self.weight / 2
+		self.y -= self.weight / 2
+
 		canvas.create_line( self.x , self.y , self.x , self.y + self.weight , fill = self.colour , width = self.weight )
 		print("drawing: xy: {0}\n        latLong: {1}".format((self.x,self.y),(self.latitude,self.longitude)))
 

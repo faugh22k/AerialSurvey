@@ -55,15 +55,13 @@ class Line() :
 
 
 	# def rotate( self , rotation , center ) :
-	# 	"""
-	# 	Rotate about a certain point, center
-	# 	@param rotation: the angle to rotate this line with, in radians
-	# 	@param center: The point to rotate this line about
-	# 	"""
-	# 	self.angle += rotation
-
-	# 	self.point1.rotate( rotation , center )
-	# 	self.point2.rotate( rotation , center )
+	#  	"""
+	#  	Rotate about a certain point, center
+	#  	@param rotation: the angle to rotate this line with, in radians
+	#  	@param center: The point to rotate this line about
+	#  	"""
+	#  	self.point1.rotate( rotation , center )
+	#  	self.point2.rotate( rotation , center )
 
 
 	# def scale( self , factor , center ) :
@@ -80,6 +78,14 @@ class Line() :
 
 	def paint( self , canvas , scale , rotation , centerLatLong , centerXY ) : 
 		self.calculateXY( scale , rotation , centerLatLong , centerXY ) 
+		self.drawLine( canvas )
+
+	def paintPlaneLine( self , canvas , rotation , centerXY ) :
+		self.point1.rotate( rotation , centerXY )
+		self.point2.rotate( rotation , centerXY )
+		self.drawLine( canvas )
+	
+	def drawLine( self , canvas ) :
 		canvas.create_line( self.point1.getX() , self.point1.getY() , self.point2.getX() , self.point2.getY() , fill = self.colour , width = self.weight )
 
 

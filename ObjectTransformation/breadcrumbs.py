@@ -1,4 +1,6 @@
 from point import *
+from line import *
+import math
 #from gpsData import GPS
 
 class Breadcrumbs() : 
@@ -10,6 +12,11 @@ class Breadcrumbs() :
 
 	# breadcrumb drawing frequency - once every n points read from GPS
 	drawingFreq = 3
+
+	# plane size - for drawing (magnitude of dist from center pt to front tip pt)
+	planeSize = 6
+	planeColour = "#000000"
+	planeWeight = 3
 
 
 	def __init__( self, pointColor, pointSize ) :
@@ -40,6 +47,8 @@ class Breadcrumbs() :
 			point.scale(magnitude, center)
 
 
+	# --- PAINT FUNCTIONS ----------------------------------------- #
+
 	def paint( self , canvas , scale , rotation , centerLatLong , centerXY ) :
 		print("  painting breadcrumbs")
 		# draws every third point, starting from the most recently added
@@ -49,4 +58,26 @@ class Breadcrumbs() :
 				point.paint(canvas , scale , rotation , centerLatLong , centerXY )  
 			pointNumber += 1
 
-	
+		# painting plane
+		adjustedCenter = ( centerXY[0] - self.pointSize/2 , centerXY[1] - self.pointSize/2 )
+		#self.drawPlane( canvas , math.pi , adjustedCenter )
+		self.drawPlane( canvas , rotation , adjustedCenter )
+
+	def drawPlane( self , canvas , rotation , centerXY ) :
+		# plane: a set of 3 lines
+		# draw as if rotation is 0 , then rotate before painting
+		centerX = centerXY[0]
+		centerY = centerXY[1]
+
+		tip = ( centerX , centerY-self.planeSize )
+		left = ( centerX-self.planeSize , centerY+self.planeSize )
+		right = ( centerX+self.planeSize , centerY+self.planeSize )
+
+		line1 = Line( tip , left , self.planeColour , self.planeWeight )
+		line2 = Line( tip , right , self.planeColour , self.planeWeight )
+		line3 = Line( left , right , self.planeColour , self.planeWeight )
+
+		line1.paintPlaneLine( canvas , rotation , centerXY )
+		line2.paintPlaneLine( canvas , rotation , centerXY )
+		line3.paintPlaneLine( canvas , rotation , centerXY )
+
