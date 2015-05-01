@@ -27,9 +27,12 @@ class GPSReader():
 	currentPosition = None
 
 
-	def __init__(self, gpggaComnum="COM13", gpggaBaudrate=4800, gpvtgComnum="COM14", gpvtgBaudrate=4800):
+	def __init__(self, gpggaComnum="COM1", gpggaBaudrate=4800, gpvtgComnum="COM2", gpvtgBaudrate=4800): 
 		self.gpggaBAUDRATE = gpggaBaudrate
 		self.gpggaComnum = gpggaComnum
+
+		self.gpvtgBAUDRATE = gpvtgBaudrate 
+		self.gpvtgComnum = gpvtgComnum 
 
 	def initConnections(self): 
 
@@ -50,7 +53,7 @@ class GPSReader():
 		self.gpvtgSerial.port = self.gpvtgComnum
 		self.gpvtgSerial.timeout = 1
 		self.gpvtgSerial.open()
-		self.gpvtgSerial.isOpen() 
+		self.gpvtgSerial.isOpen()  
 	
 		print 'OPEN: '+ self.gpvtgSerial.name
 		print '' 
@@ -60,9 +63,32 @@ class GPSReader():
 		"""returns (longitude, latitude)"""
 		try:    
 			
-			line = self.gpggaSerial.readline()    
-			print "   from gps: ", line 
+			#line = self.gpggaSerial.readline()    
+			#print ("\n      in newgpsdata calling readlastline") 
+			#line = raw_input()
+			#line = self.gpggaSerial.readlastline()   
+			#print("\n      after line read.")    
+			#line = raw_input()
 
+			# print ("\n      in newgpsdata calling readline") 
+			# raw_input()
+			# line = self.gpggaSerial.readline()   
+			# print("\n      after line read.")    
+			# raw_input()
+
+			lastLine = "0" 
+			line = "0" 
+			while line is not "" or (lastLine is "0" or lastLine is ""):
+				print("lastLine was {0}".format(line))
+				lastLine = line
+				line = self.gpggaSerial.readline()   
+			print("\n      after line read.")    
+			#raw_input()
+
+			line = lastLine
+
+			print "   from gps: ", line  
+			
 			gpgga = nmea.GPGGA() 
 			gpgga.parse(line)
 
@@ -75,7 +101,7 @@ class GPSReader():
 			longs = gpgga.longitude 
 
 
-			print("  latitude: {0}\n  longitude: {1}".format(lats,longs))
+			#print("  latitude: {0}\n  longitude: {1}".format(lats,longs))
 			
 			#convert degrees,decimal minutes to decimal degrees 
 			lat1 = (float(lats[2]+lats[3]+lats[4]+lats[5]+lats[6]+lats[7]+lats[8]))/60
@@ -99,11 +125,38 @@ class GPSReader():
 			print "error in stream_serial ", sys.exc_info()[0]
 			pass 
 
-	def getGroundSpeed(self):
-		return None
+	def getGroundSpeedAndBearing(self):
+		try:    
 
-	def getBearing(self):
-		return None
+			lastLine = "0" 
+			line = "0" 
+			while line is not "" or (lastLine is "0" or lastLine is ""):
+				print("lastLine was {0}".format(line))
+				lastLine = line
+				line = self.gpvtgSerial.readline()   
+			print("\n      after line read.")    
+			#raw_input()
+
+			line = lastLine
+
+			print "   from gps: ", line  
+			
+			gpvtg = nmea.GPVTG() 
+			gpvtg.parse(line)
+
+			# example gpvtg format line:
+			#    $gpvtg,070010.5,4215.35012,N,07234.49672,W,2,15,0.7,85.1,M,-33.0,M,,*57
+			#                    4215.35012,N,07234.49672,W
+			#                    42 degrees N, -72 degrees W 
+
+			bearing = gpvtg.true_track #or mag_track
+			groundspeed = gpvtg.spd_over_grnd_kmph #or for knots end with kts instead of kmph  
+			print ("returning {0} from ground speed bearing".format((groundspeed,bearing)))
+			return (groundspeed,bearing)
+		except:
+			print "error in stream_serial ", sys.exc_info()[0]
+			pass  
+
 
 
 
