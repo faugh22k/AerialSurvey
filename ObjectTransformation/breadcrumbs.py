@@ -37,7 +37,7 @@ class Breadcrumbs() :
 
 
 	def paint( self , canvas , scale , rotation , centerLatLong , centerXY ) :
-		print("  painting breadcrumbs")
+		#print("  painting breadcrumbs")
 		# draws every third point, starting from the most recently added
 		pointNumber = 0
 		for point in reversed(self.path):

@@ -53,7 +53,7 @@ class Point() :
 
 	def calculateXY( self , scale , rotation , centerLatLong , centerXY ) :
 
-		print("\n\n^^^^^^^^^^^^^^^^^^^^^^^^\nin calculateXY ")
+		#print("\n\n^^^^^^^^^^^^^^^^^^^^^^^^\nin calculateXY ")
 
 		# lat/long of this, where: lat/long of center -> (0,0)
 		x1 = self.latitude - centerLatLong[0]
@@ -81,9 +81,9 @@ class Point() :
 		self.x = xRotate + centerXY[0]
 		self.y = yRotate + centerXY[1]
 
-		#print("\n   xRotate: {0}\n   yRotate: {1}".format(xRotate, yRotate))
-		print("   longitude: {0}\n   latitude: {1}".format(self.longitude, self.latitude))
-		print("   x: {0}\n   y: {1}\n^^^^^^^^^^^^^^^^^^^^^^^^\n".format(self.x, self.y)) 
+		##print("\n   xRotate: {0}\n   yRotate: {1}".format(xRotate, yRotate))
+		#print("   longitude: {0}\n   latitude: {1}".format(self.longitude, self.latitude))
+		#print("   x: {0}\n   y: {1}\n^^^^^^^^^^^^^^^^^^^^^^^^\n".format(self.x, self.y)) 
 
 
 	# def rotate( self , angle , center ) :
@@ -137,7 +137,7 @@ class Point() :
 	def paint( self , canvas , scale , rotation , centerLatLong , centerXY ) :
 		self.calculateXY( scale , rotation , centerLatLong , centerXY )  
 		canvas.create_line( self.x , self.y , self.x , self.y + self.weight , fill = self.colour , width = self.weight )
-		print("drawing: xy: {0}\n        latLong: {1}".format((self.x,self.y),(self.latitude,self.longitude)))
+		#print("drawing: xy: {0}\n        latLong: {1}".format((self.x,self.y),(self.latitude,self.longitude)))
 
 
 	# --- Getters ------------------------------------------------- #

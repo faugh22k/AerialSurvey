@@ -1,5 +1,5 @@
 from Tkinter import *
-#TMPgps*import gpsReader
+from gpsReader import *
 from flightPlan import *
 from breadcrumbs import *
 
@@ -16,7 +16,7 @@ class NavigationManager(Frame):
 	canvas_width = None
 	canvas_height = None 
 
-	# colour variables
+	# colour variables 
 	colour_background = None
 	colour_breadcrumbs = None
 	colour_flightlines = None
@@ -69,9 +69,9 @@ class NavigationManager(Frame):
 		self.centerXY = (canvasWidth/2, canvasHeight/2) 
 
 		self.breadcrumbs = Breadcrumbs(self.colour_breadcrumbs, self.weight_breadcrumbs) 
-		#TMPgps*self.gpsReader = GPSReader()
-		#TMPgps*self.gpsReader.initConnections() 
-		self.breadcrumbs.addPoint(self.centerLatLong) # TMP hardcoded temporary TODO
+		self.gpsReader = GPSReader()
+		self.gpsReader.initConnections() 
+		#self.breadcrumbs.addPoint(self.centerLatLong) # TMP hardcoded temporary TODO
 
 		# TMPdefaults*
 		#self.scale = 1
@@ -103,9 +103,9 @@ class NavigationManager(Frame):
 
 		canvasWidth = self.canvas.winfo_width()
 		canvasHeight = self.canvas.winfo_height()
-		print("  canvas width: {0}\n  canvas height: {1}".format(canvasWidth, canvasHeight))
+		#print("  canvas width: {0}\n  canvas height: {1}".format(canvasWidth, canvasHeight))
 		self.centerXY = (canvasWidth/2, canvasHeight/2) 
-		print("  canvas center:  {0} \n ".format(self.centerXY)) 
+		#print("  canvas center:  {0} \n ".format(self.centerXY)) 
 
 		#self.canvas.create_line( 0 , 0 , 500 , 500 , fill = "#ffff33" , width = 3 )
 
@@ -118,22 +118,7 @@ class NavigationManager(Frame):
 		#testPoint.paint( self.canvas, self.scale, self.rotation, self.centerLatLong, self.centerXY )
 
 		#self.canvas.create_line( self.centerXY[0] , self.centerXY[1] , self.centerXY[0] , self.centerXY[1]+3 , fill = "#FF0066" , width = 3 )
-		
-
-	#def translate(self): 
-	#	print("translating by {0}, {1}".format(self.translateX, self.translateY))
-	#	self.breadcrumbs.translate(self.translateX, self.translateY)
-	#	self.flightPlan.translate(self.translateX, self.translateY) 
-	#
-	#def scale(self): 
-	#	print("scaling by {0}".format(self.scale))
-	#	self.breadcrumbs.scale(self.scale, (self.centerX, self.centerY))
-	#	self.flightPlan.scale(self.scale, (self.centerX, self.centerY))
-	#
-	#def rotate(self): 
-	#	print("rotating by {0}".format(self.rotation))
-	#	self.breadcrumbs.rotate(self.rotation)
-	#	self.flightPlan.rotate(self.rotation) 
+	     
 
 	def zoomIn(self):
 		self.zoom(1.1)
@@ -148,16 +133,16 @@ class NavigationManager(Frame):
 		self.refreshDisplay()
 
 	def newGPSData(self):
-		#self.centerLatLong = self.gpsReader.getLongLat() 
-		#self.breadcrumbs.addPoint(self.centerLatLong)
-		
-		
-		breadcrumbsFake = [(-72.57398,42.25478),(-72.57387,42.254746),(-72.57380,42.254724),(-72.57369,42.254687),(-72.57362,42.254665),(-72.57356,42.254646),(-72.57345,42.254609),(-72.57338,42.254586),(-72.57326,42.254549),  (-72.57294,42.254445)]
-		#if (self.index < len(breadcrumbsFake)):
-		self.centerLatLong = breadcrumbsFake[self.index]
-		self.index += 1 
-		print("new point: {0}".format(self.centerLatLong))
+		self.centerLatLong = self.gpsReader.getLongLat() 
 		self.breadcrumbs.addPoint(self.centerLatLong)
+		
+		
+		#breadcrumbsFake = [(-72.57398,42.25478),(-72.57387,42.254746),(-72.57380,42.254724),(-72.57369,42.254687),(-72.57362,42.254665),(-72.57356,42.254646),(-72.57345,42.254609),(-72.57338,42.254586),(-72.57326,42.254549),  (-72.57294,42.254445)]
+		#if (self.index < len(breadcrumbsFake)):
+		#self.centerLatLong = breadcrumbsFake[self.index]
+		#self.index += 1 
+		print("\n^^^^^^^^^^^^^^^^^^^^^^^^^\n   new point: {0}".format(self.centerLatLong))
+		#self.breadcrumbs.addPoint(self.centerLatLong)
 		
 		#self.breadcrumbs.addPoint(self.centerLatLong)
 		#self.rotation = self.gpsReader.getBearing()
@@ -165,13 +150,23 @@ class NavigationManager(Frame):
 
 	def run(self):
 		print("\n\nin run")
+		index = 0
 		#self.mainloop()
 
-		while True:
-			self.newGPSData() 
-
-			self.refreshDisplay() 
+		#while True:
+		#	self.newGPSData() 
+		#
+		#	self.refreshDisplay() 
+		#	index += 1
+		#	if index > 5:
+		#		return
 		#self.refreshDisplay()
+
+		self.newGPSData() 
+
+		self.refreshDisplay()  
+
+		self.after(100, self.run)
 
 
 

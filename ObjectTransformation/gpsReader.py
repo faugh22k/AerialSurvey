@@ -27,7 +27,7 @@ class GPSReader():
 	currentPosition = None
 
 
-	def __init__(self, gpggaComnum="COM13", gpggaBaudrate=4800, gpvtgComnum="COM14", gpvtgBaudrate=4800):
+	def __init__(self, gpggaComnum="COM1", gpggaBaudrate=4800, gpvtgComnum="COM2", gpvtgBaudrate=4800): 
 		self.gpggaBAUDRATE = gpggaBaudrate
 		self.gpggaComnum = gpggaComnum
 
@@ -45,23 +45,24 @@ class GPSReader():
 		print '' 
 
 
-		self.gpvtgSerial = serialwin32.Serial()#serialwin32.Serial('/dev/tty.GarminGLO47d48-COM7')
-		self.gpvtgSerial.baudrate = self.gpvtgBAUDRATE
-		self.gpvtgSerial.port = self.gpvtgComnum
-		self.gpvtgSerial.timeout = 1
-		self.gpvtgSerial.open()
-		self.gpvtgSerial.isOpen() 
+		#self.gpvtgSerial = serialwin32.Serial()#serialwin32.Serial('/dev/tty.GarminGLO47d48-COM7')
+		#self.gpvtgSerial.baudrate = self.gpvtgBAUDRATE
+		#self.gpvtgSerial.port = self.gpvtgComnum
+		#self.gpvtgSerial.timeout = 1
+		#self.gpvtgSerial.open()
+		#self.gpvtgSerial.isOpen() 
 	
-		print 'OPEN: '+ self.gpvtgSerial.name
-		print '' 
+		#print 'OPEN: '+ self.gpvtgSerial.name
+		#print '' 
 
 
 	def getLongLat(self):
 		"""returns (longitude, latitude)"""
 		try:    
 			
-			line = self.gpggaSerial.readline()    
-			print "   from gps: ", line 
+			#line = self.gpggaSerial.readline()    
+			line = self.gpggaSerial.readLastLine()    
+			#print "   from gps: ", line 
 
 			gpgga = nmea.GPGGA() 
 			gpgga.parse(line)
@@ -75,7 +76,7 @@ class GPSReader():
 			longs = gpgga.longitude 
 
 
-			print("  latitude: {0}\n  longitude: {1}".format(lats,longs))
+			#print("  latitude: {0}\n  longitude: {1}".format(lats,longs))
 			
 			#convert degrees,decimal minutes to decimal degrees 
 			lat1 = (float(lats[2]+lats[3]+lats[4]+lats[5]+lats[6]+lats[7]+lats[8]))/60
