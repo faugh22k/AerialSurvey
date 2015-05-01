@@ -14,6 +14,7 @@ class PreFlightMode(Frame) :
 	colour_breadcrumbs = "#135e1c"
 	colour_flightlines = "#ffff33"
 	colour_ramps = "#ff0000"
+	colour_plane = "#000000"
 
 	#colorSelectionArea = None
 	colorSelectionAreaWidgets = []
@@ -82,6 +83,10 @@ class PreFlightMode(Frame) :
 		breadcrumbsSelect = self.createColorSelectFrame(colorSelectionArea, "breadcrumbs color", self.colour_breadcrumbs, self.changeBreadcrumbsColor)
 		breadcrumbsColorSelect = breadcrumbsSelect[0]
 		self.displayColorBreadcrumbs = breadcrumbsSelect[1]
+
+		planeSelect = self.createColorSelectFrame(colorSelectionArea, "plane location color", self.colour_plane, self.changePlaneColor)
+		planeColorSelect = planeSelect[0]
+		self.displayColorPlane = planeSelect[1]
 		
 		backgroundSelect = self.createColorSelectFrame(colorSelectionArea, "background color", self.colour_background, self.changeBackgroundColor)
 		backgroundColorSelect = backgroundSelect[0]
@@ -94,6 +99,7 @@ class PreFlightMode(Frame) :
 		linesColorSelect.pack()#side=LEFT)
 		rampsColorSelect.pack()#side=LEFT)
 		breadcrumbsColorSelect.pack()#side=LEFT)
+		planeColorSelect.pack()#side=LEFT)
 		backgroundColorSelect.pack()#side=LEFT)
 
 		self.colorSelectionAreaWidgets = [colorSelectionArea, label]#[colorSelectionArea, linesSelect, rampsSelect, breadcrumbsSelect, backgroundSelect]
@@ -227,6 +233,13 @@ class PreFlightMode(Frame) :
 			return
 		self.colour_breadcrumbs = color[1]
 		self.displayColorBreadcrumbs.config(background = color[1])
+
+	def changePlaneColor(self):
+		color = askcolor(self.colour_plane)  
+		if color[1] is None:
+			return
+		self.colour_plane = color[1]
+		self.displayColorPlane.config(background = color[1])
 
 	def getFlightlinesWeight(self):
 		return int(self.displayWeightFlightlines.get())

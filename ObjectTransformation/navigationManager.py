@@ -1,5 +1,6 @@
+import Tkinter as tk
 from Tkinter import *
-from gpsReader import *
+#**from gpsReader import *
 from flightPlan import *
 from breadcrumbs import *
 
@@ -21,6 +22,7 @@ class NavigationManager(Frame):
 	colour_breadcrumbs = None
 	colour_flightlines = None
 	colour_ramps = None
+	colour_plane = None
 
 	# weight variables
 	weight_breadcrumbs = None
@@ -34,7 +36,7 @@ class NavigationManager(Frame):
 
 	index = 0 # for temporary hardcoded breadcrumbs list
 
-	def __init__(self, master, canvas_width, canvas_height, linesFileName, rampsFileName, colour_flightlines, colour_ramps, colour_breadcrumbs, colour_background, weight_flightplan, weight_breadcrumbs):
+	def __init__(self, master, canvas_width, canvas_height, linesFileName, rampsFileName, colour_flightlines, colour_ramps, colour_breadcrumbs, colour_plane, colour_background, weight_flightplan, weight_breadcrumbs):
 		Frame.__init__(self, master) # (self, master)
 		#self.pack()
 
@@ -48,6 +50,7 @@ class NavigationManager(Frame):
 		self.colour_ramps = colour_ramps
 		self.colour_breadcrumbs = colour_breadcrumbs
 		self.colour_background = colour_background
+		self.colour_plane = colour_plane
 
 		self.weight_flightplan = weight_flightplan
 		self.weight_breadcrumbs = weight_breadcrumbs
@@ -68,9 +71,9 @@ class NavigationManager(Frame):
 		print("  canvas width: {0}\n  canvas height: {1}".format(canvasWidth, canvasHeight))
 		self.centerXY = (canvasWidth/2, canvasHeight/2) 
 
-		self.breadcrumbs = Breadcrumbs(self.colour_breadcrumbs, self.weight_breadcrumbs) 
-		self.gpsReader = GPSReader()
-		self.gpsReader.initConnections() 
+		self.breadcrumbs = Breadcrumbs(self.colour_breadcrumbs, self.weight_breadcrumbs, self.colour_plane) 
+		#**self.gpsReader = GPSReader()
+		#**self.gpsReader.initConnections() 
 		#self.breadcrumbs.addPoint(self.centerLatLong) # TMP hardcoded temporary TODO
 
 		# TMPdefaults*
@@ -84,15 +87,23 @@ class NavigationManager(Frame):
 	def initWindow(self):
 		self.canvas = Canvas( self , width = self.canvas_width , height = self.canvas_height, background = self.colour_background )
 
-		zoomInButton = Button( self, text="+", command=self.zoomIn ) 
-		zoomOutButton = Button( self, text="-", command=self.zoomOut ) 
+		buttons = Frame(self)
+		#zoomInButton = Button( self, text="+", command=self.zoomIn )  
+		#zoomOutButton = Button( self, text="-", command=self.zoomOut ) 
+		zoomInButton = Button( buttons, text="+", command=self.zoomIn ) 
+		zoomOutButton = Button( buttons, text="-", command=self.zoomOut )  
+		clearButton = Button( buttons, text="clear", command=self.clearBreadcrumbs )  
 
 		#textGroundSpeed = Text( self ) 
 		#textGroundSpeed.insert(INSERT,"Ground Speed")
 
-		self.canvas.pack()
-		zoomInButton.pack()
-		zoomOutButton.pack()
+		#self.canvas.pack(fill=tk.X)
+		self.canvas.pack(expand=True)
+		zoomOutButton.pack(side=LEFT)
+		zoomInButton.pack(side=LEFT)
+		clearButton.pack(side=LEFT)
+		
+		buttons.pack(fill=tk.BOTH)
 		#textGroundSpeed.grid()
 
 
@@ -119,6 +130,8 @@ class NavigationManager(Frame):
 
 		#self.canvas.create_line( self.centerXY[0] , self.centerXY[1] , self.centerXY[0] , self.centerXY[1]+3 , fill = "#FF0066" , width = 3 )
 	     
+	def clearBreadcrumbs(self):
+		self.breadcrumbs.clear()
 
 	def zoomIn(self):
 		self.zoom(1.1)
@@ -177,7 +190,7 @@ class NavigationManager(Frame):
 		# 	print ("about to enter new update loop")
 		# 	line = raw_input()
 
-		self.newGPSData() 
+		#**self.newGPSData() 
 
 		self.refreshDisplay() 
 
