@@ -5,7 +5,9 @@ import math
 
 class Line() :
 	"""
-	a line
+	A Line.
+
+	@author: Elizabeth Fong, Kim Faughnan, Spring 2015
 	"""
 
 	colour = None
