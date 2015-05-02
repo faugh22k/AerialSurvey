@@ -127,4 +127,3 @@ class FlightPlan():
 			item.paint(self.canvas , scale , rotation , centerLatLong , centerXY )
 
 
-

@@ -5,7 +5,7 @@ import math
 
 class Line() :
 	"""
-	a line - uses polar coordinates
+	a line
 	"""
 
 	colour = None
@@ -80,8 +80,15 @@ class Line() :
 
 	def paint( self , canvas , scale , rotation , centerLatLong , centerXY ) : 
 		self.calculateXY( scale , rotation , centerLatLong , centerXY ) 
-		canvas.create_line( self.point1.getX() , self.point1.getY() , self.point2.getX() , self.point2.getY() , fill = self.colour , width = self.weight )
+		self.drawLine()
 
+	def paintPlaneLine( self , canvas , rotation , centerXY ) :
+		self.point1.rotate( rotation , centerXY )
+		self.point2.rotate( rotation , centerXY )
+		self.drawLine()
+
+	def drawLine( self , canvas ) :
+		canvas.create_line( self.point1.getX() , self.point1.getY() , self.point2.getX() , self.point2.getY() , fill = self.colour , width = self.weight )
 
 	# --- Getters ------------------------------------------------- #
 

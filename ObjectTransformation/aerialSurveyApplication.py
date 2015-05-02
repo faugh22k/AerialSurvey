@@ -31,7 +31,16 @@ class AerialSurveyApplication(Tk):
 	def __init__(self):
 		Tk.__init__(self)#, None, width=1000, height=1000) 
 		#self.pack() 
-		self.geometry("700x900")
+
+		w, h = self.winfo_screenwidth(), self.winfo_screenheight()
+		#self.overrideredirect(1)
+		self.geometry("%dx%d+0+0" % (w, h))
+		#self.w = w
+		#self.h = h
+		self.canvas_width = w 
+		self.canvas_height = 5*h/6
+
+		#self.geometry("700x900")
 		self.preflightFrame = Frame(self, width=1000, height=1000)
 		
 		self.preflightMode = PreFlightMode(self.preflightFrame, self)
@@ -73,6 +82,7 @@ class AerialSurveyApplication(Tk):
 		self.colour_ramps = self.preflightMode.getColorRamps()
 		self.colour_breadcrumbs = self.preflightMode.getColorBreadcrumbs()
 		self.colour_background = self.preflightMode.getColorBackground()
+		self.plane = self.preflightMode.getColorPlane()
 
 		
 
@@ -85,7 +95,7 @@ class AerialSurveyApplication(Tk):
 		self.preflightFrame.pack_forget()
 		self.preflightFrame.destroy()
 		#self.pack_forget() 
-		self.navigationManager = NavigationManager(self, self.canvas_width, self.canvas_height, self.linesFileName, self.rampsFileName, self.colour_flightlines, self.colour_ramps, self.colour_breadcrumbs, self.colour_background, self.weight_flightplan, self.weight_breadcrumbs)
+		self.navigationManager = NavigationManager(self, self.canvas_width, self.canvas_height, self.linesFileName, self.rampsFileName, self.colour_flightlines, self.colour_ramps, self.colour_breadcrumbs, self.colour_plane, self.colour_background, self.weight_flightplan, self.weight_breadcrumbs)
 		self.navigationManager.place(in_=self)
 		#self.pack()
 		self.update()
@@ -99,7 +109,6 @@ if __name__ == "__main__":
     # Starts the program.
     aerialSurveyApplication = AerialSurveyApplication() 
     aerialSurveyApplication.mainloop() 
-
 
 
 

@@ -3,12 +3,12 @@ import math
 
 class Point() :
 	"""
-	a point, in polar coordinate wrt center of canvas
-	(i,j,theta)
+	a point
 	"""
 	# for painting
 	colour = None
 	weight = None
+	toPaint = None
 
 	# Geographic latitude, longitude values of this point
 	latitude = None
@@ -18,26 +18,15 @@ class Point() :
 	x = None
 	y = None
 
-	displayX = None
-	displayY = None
-
-	translateX = None
-	translateY = None
-
-	scale = None
-
-	rotation = None
-
 
 	def __init__( self , geoPt , ptColour , ptWeight ) :
 		"""
-		Constructor
+		Constructor: Initialises this point.
 
 		@param geoPt: Geographic latitude , longitude of this point
 		@param canvasPt: Initial point on the canvas (x,y)
 		@param ptColour: Colour to paint this point with. None if this point is part of a line.
 		@param ptWeight: Weight of this point. None if this point is part of a line.
-		@param 
 		"""
 		self.latitude = geoPt[0]
 		self.longitude = geoPt[1]
@@ -47,12 +36,20 @@ class Point() :
 
 		self.colour = ptColour
 		self.weight = ptWeight
+		self.toPaint = True
 
 
 	# --- Transformation Methods ---------------------------------- #
 
 	def calculateXY( self , scale , rotation , centerLatLong , centerXY ) :
+		"""
+		Calculates the canvas coordinates of this point.
 
+		@param scale: Magnitude of the scale required to convert geographic coordinates to canvas coordinates.
+		@param rotation: The angle, in radians, from North that this point is to be rotated by, in a clockwise direction, relative to the center point.
+		@param centerLatLong: Geographic latitude, longitude of the center point.
+		@param centerXY: Canvas x and y-coordinates of the center point.
+		"""	
 		#print("\n\n^^^^^^^^^^^^^^^^^^^^^^^^\nin calculateXY ")
 
 		# lat/long of this, where: lat/long of center -> (0,0)
@@ -86,23 +83,22 @@ class Point() :
 		#print("   x: {0}\n   y: {1}\n^^^^^^^^^^^^^^^^^^^^^^^^\n".format(self.x, self.y)) 
 
 
-	# def rotate( self , angle , center ) :
-	# 	"""
-	# 	MAY BE BROKEN
-	# 	"""
-	# 	# using rotation in 2-dimensions (euclidian)
-	# 	# x' = xcos(theta) - ysin(theta)
-	# 	# y' = xsin(theta) + ycos(theta)
+	def rotate( self , angle , center ) :
+		"""
 		
-	# 	x1 = self.x - center[0]
-	# 	y1 = self.y - center[1]
+		"""
+	 	# using rotation in 2-dimensions (euclidian)
+	 	# x' = xcos(theta) - ysin(theta)
+	 	# y' = xsin(theta) + ycos(theta)
+	
+	 	x1 = self.x - center[0]
+	 	y1 = self.y - center[1]
 
-	# 	xNew = x1 * math.cos(angle) - y1 * math.sin(angle)
-	# 	yNew = x1 * math.sin(angle) + y1 * math.cos(angle)
+	 	xNew = x1 * math.cos(angle) - y1 * math.sin(angle)
+	 	yNew = x1 * math.sin(angle) + y1 * math.cos(angle)
 
-	# 	self.x = xNew + center[0]
-	# 	self.y = yNew + center[1]
-
+	 	self.x = xNew + center[0]
+	 	self.y = yNew + center[1]
 
 	# def scale( self , magnitude , center ) :
 	# 	"""
@@ -135,24 +131,67 @@ class Point() :
 	# --- Others -------------------------------------------------- #
 	
 	def paint( self , canvas , scale , rotation , centerLatLong , centerXY ) :
-		self.calculateXY( scale , rotation , centerLatLong , centerXY )  
-		canvas.create_line( self.x , self.y , self.x , self.y + self.weight , fill = self.colour , width = self.weight )
-		#print("drawing: xy: {0}\n        latLong: {1}".format((self.x,self.y),(self.latitude,self.longitude)))
+		"""
+		Calculates the canvas coordinates of this point and paints it onto the canvas.
+		
+		@param canvas:
+		@param scale:
+		@param rotation:
+		@param centerLatLong:
+		@param centerXY:
+		"""
+		if self.toPaint :
+			self.calculateXY( scale , rotation , centerLatLong , centerXY )  
+			
+			self.x -= self.weight / 2
+			self.y -= self.weight / 2
 
+			canvas.create_line( self.x , self.y , self.x , self.y + self.weight , fill = self.colour , width = self.weight )
+			#print("drawing: xy: {0}\n        latLong: {1}".format((self.x,self.y),(self.latitude,self.longitude)))
+
+
+	# --- Setters ------------------------------------------------- #
+
+	def setPaint( self , toPaint ) :
+		"""
+		Sets this point to paint or not.
+		@param toPaint: True if this point is to be painted onto the canvas, False otherwise.
+		"""
+		self.toPaint = toPaint 
 
 	# --- Getters ------------------------------------------------- #
 	
 	def getX( self ) :
+		"""
+		Returns the canvas x-coordinate of this point.
+		@return: The canvas x-coordinate of this point.
+		"""
 		return self.x
 
 	def getY( self ) :
+		"""
+		Returns the canvas y-coordinate of this point.
+		@return: The canvas y-coordinate of this point.
+		"""
 		return self.y
 
 	def getCanvasPt( self ) :
+		"""
+		Returns the canvas coordinates of this point as a duple. (x,y)
+		@return: The canvas coordinates of this point as a duple. (x,y)
+		"""
 		return ( self.x , self.y )
 
 	def getLatitude( self ) :
+		"""
+		Returns the latitude value of this point.
+		@return: The latitude value of this point.
+		"""
 		return self.latitude 
 
 	def getLongitude( self ) :
+		"""
+		Returns the longitude value of this point.
+		@return: The longitude value of this point.
+		"""
 		return self.longitude
