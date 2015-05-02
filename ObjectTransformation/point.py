@@ -30,10 +30,9 @@ class Point() :
 		"""
 		Constructor: Initialises this point.
 
-		@param geoPt: Geographic latitude , longitude of this point
-		@param canvasPt: Initial point on the canvas (x,y)
-		@param ptColour: Colour to paint this point with. None if this point is part of a line.
-		@param ptWeight: Weight of this point. None if this point is part of a line.
+		@param geoPt: Geographic latitude , longitude of this point. Represented as a duple.
+		@param ptColour: The colour of this point. None if this point is part of a line.
+		@param ptWeight: The weight of this point. None if this point is part of a line.
 
 		@return: None.
 		"""
@@ -48,7 +47,7 @@ class Point() :
 		self.toPaint = True
 
 
-	# --- Transformation Methods ---------------------------------- #
+	# --- Transformation ------------------------------------------ #
 
 	def calculateXY( self , scale , rotation , centerLatLong , centerXY ) :
 		"""
@@ -57,7 +56,9 @@ class Point() :
 		@param scale: Magnitude of the scale required to convert geographic coordinates to canvas coordinates.
 		@param rotation: The angle, in radians, from North that this point is to be rotated by, in a clockwise direction, relative to the center point.
 		@param centerLatLong: Geographic latitude, longitude of the center point.
+							  Represented as a duple.
 		@param centerXY: Canvas x and y-coordinates of the center point.
+						 Represented as a duple.
 
 		@return: None.
 		"""	
@@ -89,6 +90,7 @@ class Point() :
 
 		@param angle: The angle this point is to be rotated clockwise by, in radians.
 		@param center: The center point which this point is rotated with respect to.
+					   Represented as a duple.
 
 		@return: None.
 		"""	
@@ -112,7 +114,9 @@ class Point() :
 		@param scale: Magnitude of the scale required to convert geographic coordinates to canvas coordinates.
 		@param rotation: The angle, in radians, from North that this point is to be rotated by, in a clockwise direction, relative to the center point.
 		@param centerLatLong: Geographic latitude, longitude of the center point.
+							  Represented as a duple.
 		@param centerXY: Canvas x and y-coordinates of the center point.
+						 Represented as a duple.
 
 		@return: None.
 		"""
