@@ -278,6 +278,9 @@ class PreFlightMode(Frame) :
 	def getColorBackground(self):
 		return self.colour_background
 
+	def getColorPlane( self ) :
+		return self.colour_plane
+
 	def finish(self):
 		self.listening.leavePreFlightMode()
 
