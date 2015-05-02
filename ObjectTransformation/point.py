@@ -1,23 +1,30 @@
-from Tkinter import *
-import math
+from Tkinter import *	# for drawing
+import math				# for calculations
+
 
 class Point() :
 	"""
-	a point
+	A Point
+
+	@author Elizabeth Fong, Kim Faughnan, Spring 2015
 	"""
-	# for painting
+	# Painting variables
 	colour = None
 	weight = None
+
+	# boolean variable to paint this point or not
 	toPaint = None
 
 	# Geographic latitude, longitude values of this point
 	latitude = None
 	longitude = None
 	
-	# x,y (width,height) distances wrt to (0,0) of canvas
+	# Canvas coordinates: x,y (width,height) distances wrt to (0,0) of canvas
 	x = None
 	y = None
 
+
+	# --- Construction -------------------------------------------- #
 
 	def __init__( self , geoPt , ptColour , ptWeight ) :
 		"""
@@ -27,6 +34,8 @@ class Point() :
 		@param canvasPt: Initial point on the canvas (x,y)
 		@param ptColour: Colour to paint this point with. None if this point is part of a line.
 		@param ptWeight: Weight of this point. None if this point is part of a line.
+
+		@return: None.
 		"""
 		self.latitude = geoPt[0]
 		self.longitude = geoPt[1]
@@ -49,48 +58,40 @@ class Point() :
 		@param rotation: The angle, in radians, from North that this point is to be rotated by, in a clockwise direction, relative to the center point.
 		@param centerLatLong: Geographic latitude, longitude of the center point.
 		@param centerXY: Canvas x and y-coordinates of the center point.
+
+		@return: None.
 		"""	
-		#print("\n\n^^^^^^^^^^^^^^^^^^^^^^^^\nin calculateXY ")
 
 		# lat/long of this, where: lat/long of center -> (0,0)
 		x1 = self.latitude - centerLatLong[0]
 		y1 = self.longitude - centerLatLong[1]
 
-		#print("   longitude: {0}\n   centerlong: {1}\n   longitude - centerLong: {2}".format(self.longitude, centerLatLong[0],x1))
-		#print("   latitude: {0}\n   centerLat: {1}\n   latitude - centerLat: {2}".format(self.latitude, centerLatLong[1],x1))
-
 		# scale
 		x1 *= scale
 		y1 *= scale
-
-		#print("\n   scale: {0}\n   x1: {1}\n   y1: {2}".format(scale, x1, y1))
 
 		# rotate so plane faces top of canvas
 		xRotate = x1 * math.cos(rotation) - y1 * math.sin(rotation)
 		yRotate = x1 * math.sin(rotation) + y1 * math.cos(rotation)  # shouldn't this all by y1?
 
-		#print("\n   x1 * math.cos(rotation) - y1 * math.sin(rotation)")
-		#print(  "   {0} * {1}      -      {2} * {3}".format(x1,math.cos(rotation),y1,math.sin(rotation))) 
-		#print(  "   {0}    -    {1}".format(x1*math.cos(rotation),y1*math.sin(rotation))) 
-		#print(  "   {0}".format(x1*math.cos(rotation)-y1*math.sin(rotation))) 
-
 		# translate so that center is in middle of canvas
 		self.x = xRotate + centerXY[0]
 		self.y = yRotate + centerXY[1]
 
-		##print("\n   xRotate: {0}\n   yRotate: {1}".format(xRotate, yRotate))
-		#print("   longitude: {0}\n   latitude: {1}".format(self.longitude, self.latitude))
-		#print("   x: {0}\n   y: {1}\n^^^^^^^^^^^^^^^^^^^^^^^^\n".format(self.x, self.y)) 
-
 
 	def rotate( self , angle , center ) :
 		"""
+		Rotates this point, clockwise, by the specified angle with respect to the specified center point.
 		
-		"""
-	 	# using rotation in 2-dimensions (euclidian)
-	 	# x' = xcos(theta) - ysin(theta)
-	 	# y' = xsin(theta) + ycos(theta)
-	
+		This uses the algorithm for calculating rotation in 2-dimensions (euclidian), where:
+		x' = xcos(theta) - ysin(theta)
+	 	y' = xsin(theta) + ycos(theta)
+
+		@param angle: The angle this point is to be rotated clockwise by, in radians.
+		@param center: The center point which this point is rotated with respect to.
+
+		@return: None.
+		"""	
 	 	x1 = self.x - center[0]
 	 	y1 = self.y - center[1]
 
@@ -100,54 +101,29 @@ class Point() :
 	 	self.x = xNew + center[0]
 	 	self.y = yNew + center[1]
 
-	# def scale( self , magnitude , center ) :
-	# 	"""
-	# 	MAY BE BROKEN
-	# 	@param magnitude :
-	# 	@param center :
-	# 	"""
-	# 	# scale distance between center and point
-	# 	x1 = self.x - center[0]
-	# 	y1 = self.y - center[1]
 
-	# 	xNew = x1 * magnitude
-	# 	yNew = y1 * magnitude
-
-	# 	self.x = xNew + center[0]
-	# 	self.y = yNew + center[1]
-	
-
-
-	# def translate( self , factorX , factorY ) :
-	# 	"""
-	# 	MAY BE BROKEN
-	# 	@param factorX :
-	# 	@param factorY :
-	# 	"""
-	# 	self.x += factorX
-	# 	self.y += factorY
-
-
-	# --- Others -------------------------------------------------- #
+	# --- Painting ------------------------------------------------ #
 	
 	def paint( self , canvas , scale , rotation , centerLatLong , centerXY ) :
 		"""
 		Calculates the canvas coordinates of this point and paints it onto the canvas.
 		
-		@param canvas:
-		@param scale:
-		@param rotation:
-		@param centerLatLong:
-		@param centerXY:
+		@param canvas: The canvas this point is to be drawn onto.
+		@param scale: Magnitude of the scale required to convert geographic coordinates to canvas coordinates.
+		@param rotation: The angle, in radians, from North that this point is to be rotated by, in a clockwise direction, relative to the center point.
+		@param centerLatLong: Geographic latitude, longitude of the center point.
+		@param centerXY: Canvas x and y-coordinates of the center point.
+
+		@return: None.
 		"""
 		if self.toPaint :
 			self.calculateXY( scale , rotation , centerLatLong , centerXY )  
 			
+			# adjust (x,y) so that point is in center of drawn point.
 			self.x -= self.weight / 2
 			self.y -= self.weight / 2
 
 			canvas.create_line( self.x , self.y , self.x , self.y + self.weight , fill = self.colour , width = self.weight )
-			#print("drawing: xy: {0}\n        latLong: {1}".format((self.x,self.y),(self.latitude,self.longitude)))
 
 
 	# --- Setters ------------------------------------------------- #
@@ -156,8 +132,10 @@ class Point() :
 		"""
 		Sets this point to paint or not.
 		@param toPaint: True if this point is to be painted onto the canvas, False otherwise.
+		@return: None.
 		"""
 		self.toPaint = toPaint 
+
 
 	# --- Getters ------------------------------------------------- #
 	
@@ -168,12 +146,14 @@ class Point() :
 		"""
 		return self.x
 
+
 	def getY( self ) :
 		"""
 		Returns the canvas y-coordinate of this point.
 		@return: The canvas y-coordinate of this point.
 		"""
 		return self.y
+
 
 	def getCanvasPt( self ) :
 		"""
@@ -182,12 +162,14 @@ class Point() :
 		"""
 		return ( self.x , self.y )
 
+
 	def getLatitude( self ) :
 		"""
 		Returns the latitude value of this point.
 		@return: The latitude value of this point.
 		"""
 		return self.latitude 
+
 
 	def getLongitude( self ) :
 		"""
