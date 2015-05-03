@@ -1,10 +1,9 @@
-
-
 from pynmea.pynmea import nmea
 #*import matplotlib.pyplot as plt
 import pyserial.serial as serial, time, sys, threading, datetime, shutil
 import pyserial.serial.serialutil as serialutil
 import pyserial.serial.serialwin32 as serialwin32
+
 
 class GPSReader():
 
