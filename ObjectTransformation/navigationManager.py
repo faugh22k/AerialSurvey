@@ -1,10 +1,18 @@
-import Tkinter as tk
-from Tkinter import *
-#**from gpsReader import *
-from flightPlan import *
-from breadcrumbs import *
+import Tkinter as tk 		# for painting
+from Tkinter import *		# for painting
+
+from flightPlan import *	# flightplan - flightlines & ramps
+from breadcrumbs import *	# breadcrumbs & plane
+
 
 class NavigationManager(Frame):
+	"""
+	The screen the pilot uses as they are flying the plane.
+	This contains the display with the flightplan and breadcrumbs.
+	This also contains buttons for the pilot to alter the display in-flight.
+
+	@author: Kim Faughnan, Elizabeth Fong, Spring 2015
+	"""
 
 	flightPlan = None 
 	breadcrumbs = None 

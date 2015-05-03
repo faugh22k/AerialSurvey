@@ -84,7 +84,8 @@ class Breadcrumbs() :
 		@param canvas: The canvas the breadcrumbs and plane are to be drawn onto.
 		@param scale: Magnitude of the scale required to convert geographic coordinates to canvas coordinates.
 					  Used for calculating the canvas coordinates of the breadcrumbs before painting.
-		@param rotation: The angle, in radians, from North that this point is to be rotated by, in a clockwise direction, relative to the center point.
+		@param rotation: The angle, in radians, from North that the points and the plane are to be rotated by, 
+						 in a clockwise direction, relative to the center point.
 						 Used for calculating the canvas coordintates of the breadcrumbs and the plane before painting.
 		@param centerLatLong: Geographic latitude, longitude of the center point.
 							  Used for calculating the canvas coordinates of the breadcrumbs before painting.
