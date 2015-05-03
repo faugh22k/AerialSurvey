@@ -14,16 +14,12 @@ class NavigationManager(Frame):
 	@author: Kim Faughnan, Elizabeth Fong, Spring 2015
 	"""
 
-	flightPlan = None 
-	breadcrumbs = None 
-	gpsReader = None 
+	# CONSTANT - time between calling refresh display
+	refreshTime = 100
 
-	rampsFileName = None
-	linesFileName = None
-
-	canvas = None
-	canvas_width = None
-	canvas_height = None 
+	# CONSTANT - zoon factors
+	zoomInFactor = 1.1
+	zoomOutFactor = 0.9
 
 	# colour variables 
 	colour_background = None
@@ -36,21 +32,63 @@ class NavigationManager(Frame):
 	weight_breadcrumbs = None
 	weight_flightplan = None
 
+	# shapefile paths
+	rampsFileName = None
+	linesFileName = None
+
+	# canvas
+	canvas = None
+	canvas_width = None
+	canvas_height = None 
+
+	# flight plan, breadcrumbs
+	flightPlan = None 
+	breadcrumbs = None
+
+	# GPS Reader
+	gpsReader = None 
+
+	# scale, rotation (in radians, wrt North)
 	scale = 1
-	centerXY = None
-	centerLatLong = None # (latitude, longitude)
 	rotation = 0
+
+	# coordinates for center - geographic & canvas coordinates
+	centerLatLong = None 	# (latitude, longitude)
+	centerXY = None
+	
+	# ground speed (from GPS)
 	groundSpeed = 0
 
-	index = 0 # for temporary hardcoded breadcrumbs list
+
+	# --- Construction -------------------------------------------- #
 
 	def __init__(self, master, canvas_width, canvas_height, linesFileName, rampsFileName, colour_flightlines, colour_ramps, colour_breadcrumbs, colour_plane, colour_background, weight_flightplan, weight_breadcrumbs):
-		Frame.__init__(self, master) # (self, master)
-		#self.pack()
+		"""
+		Constructor: Initialises Navigation Manager. This is the screen the pilot uses in-flight.
 
+		@param canvas_width: Width of the canvas.
+		@param canvas_height: Height of the canvas.
+
+		@param linesFileName: The path of the shapefile for the flightlines.
+		@param rampsFileName: The path of the shapefile for the ramps.
+
+		@param colour_flightlines: Colour of the flightlines.
+		@param colour_ramps: Colour of the ramps.
+		@param colour_breadcrumbs: Colour of the breadcrumbs.
+		@param colour_plane: Colour for the representation of the plane.
+		@param colour_background: Background colour.
+
+		@param weight_flightplan: Line weight for the flight plan.
+		@param weight_breadcrumbs: Point weight for the breadcrumbs.
+
+		@return: None.
+		"""
+		Frame.__init__(self, master)
+
+		# values from parameters
 		self.canvas_width = canvas_width
 		self.canvas_height = canvas_height
- 		 
+ 		
 		self.linesFileName = linesFileName
 		self.rampsFileName = rampsFileName
 
@@ -63,41 +101,43 @@ class NavigationManager(Frame):
 		self.weight_flightplan = weight_flightplan
 		self.weight_breadcrumbs = weight_breadcrumbs
 		
+		# init window
 		self.initWindow()
 		
+		# init flight plan
 		self.flightPlan = FlightPlan(self.linesFileName, self.rampsFileName, self.colour_flightlines, self.colour_ramps, self.weight_flightplan, self.canvas)
 		
+		# initial scale, center geographic pt from flight plan
 		self.scale = self.flightPlan.calculateInitialScale(self.canvas_width, self.canvas_height)
 		self.centerLatLong = self.flightPlan.getInitialTranslation()  # we want to quickly overwrite this with a point from the gps
 		
 		print("\nstarting center lat long: {0}".format(self.centerLatLong))
 		print("starting scale: {0}".format(self.scale)) 
 		
+		# canvas width & height, center x,y
 		# needs to be after canvas added to screen (in initWindow)
 		canvasWidth = self.canvas.winfo_width()
 		canvasHeight = self.canvas.winfo_height()
 		print("  canvas width: {0}\n  canvas height: {1}".format(canvasWidth, canvasHeight))
 		self.centerXY = (canvasWidth/2, canvasHeight/2) 
 
+		# init breadcrumbs
 		self.breadcrumbs = Breadcrumbs(self.colour_breadcrumbs, self.weight_breadcrumbs, self.colour_plane) 
-		#**self.gpsReader = GPSReader()
-		#**self.gpsReader.initConnections() 
-		#self.breadcrumbs.addPoint(self.centerLatLong) # TMP hardcoded temporary TODO
-
-		# TMPdefaults*
-		#self.scale = 1
-		#self.translateX = 80
-		#self.translateY = 80
-
-
+		
+		# paint display
 		self.refreshDisplay()
 
+
 	def initWindow(self):
+		"""
+		Initialises the window with the user interface.
+
+		@return: None.
+		"""
 		self.canvas = Canvas( self , width = self.canvas_width , height = self.canvas_height, background = self.colour_background )
 
+		# buttons & text display
 		buttons = Frame(self)
-		#zoomInButton = Button( self, text="+", command=self.zoomIn )  
-		#zoomOutButton = Button( self, text="-", command=self.zoomOut ) 
 		zoomInButton = Button( buttons, text="+", command=self.zoomIn ) 
 		zoomOutButton = Button( buttons, text="-", command=self.zoomOut )  
 		clearButton = Button( buttons, text="clear", command=self.clearBreadcrumbs )  
@@ -105,7 +145,7 @@ class NavigationManager(Frame):
 		#textGroundSpeed = Text( self ) 
 		#textGroundSpeed.insert(INSERT,"Ground Speed")
 
-		#self.canvas.pack(fill=tk.X)
+		# layout - packing
 		self.canvas.pack(expand=True)
 		zoomOutButton.pack(side=LEFT)
 		zoomInButton.pack(side=LEFT)
@@ -115,110 +155,109 @@ class NavigationManager(Frame):
 		#textGroundSpeed.grid()
 
 
-	def refreshDisplay(self):
-		print("in refresh display")  
+	# --- On run -------------------------------------------------- #
 
+	def run( self ) :
+		"""
+		On run. Refreshes the display after a pre-determined time (in milliseconds).
+
+		@return: None.
+		"""
+		print("\n\nin run")
+
+		self.refreshDisplay() 
+		self.after( refreshTime , self.run ) 
+
+
+	def refreshDisplay(self):
+		"""
+		Refreshes the display.
+
+		@return: None.
+		"""
+		print("in refresh display")
+
+		# clears canvas before painting
 		self.canvas.delete("all")
 
+		# get center canvas coordinate in case it changed
 		canvasWidth = self.canvas.winfo_width()
 		canvasHeight = self.canvas.winfo_height()
-		#print("  canvas width: {0}\n  canvas height: {1}".format(canvasWidth, canvasHeight))
 		self.centerXY = (canvasWidth/2, canvasHeight/2) 
-		#print("  canvas center:  {0} \n ".format(self.centerXY)) 
 
-		#self.canvas.create_line( 0 , 0 , 500 , 500 , fill = "#ffff33" , width = 3 )
-
-		#self.canvas.create_line( self.translateX , self.translateY , self.translateX+200 , self.translateY+200 , fill = "#ff0000" , width = 3 ) 
-
+		# paints display (flight plan, breadcrumbs)
 		self.flightPlan.paint( self.canvas, self.scale, self.rotation, self.centerLatLong, self.centerXY )
 		self.breadcrumbs.paint( self.canvas, self.scale, self.rotation, self.centerLatLong, self.centerXY ) 
 
-		#testPoint = Point((-72.57663069977029, 35), "#59DE42", 6)
-		#testPoint.paint( self.canvas, self.scale, self.rotation, self.centerLatLong, self.centerXY )
-
-		#self.canvas.create_line( self.centerXY[0] , self.centerXY[1] , self.centerXY[0] , self.centerXY[1]+3 , fill = "#FF0066" , width = 3 )
-	     
-	def clearBreadcrumbs(self):
-		self.breadcrumbs.clear()
-
-	def zoomIn(self):
-		self.zoom(1.1)
-
-
-	def zoomOut(self):
-		self.zoom(0.9)
-
-	def zoom(self, factor):
-		self.scale *= factor
-		print("...\n  new scale: {0}\n...".format(self.scale))
-		self.refreshDisplay()
 
 	def newGPSData(self):
-		#print ("  about to ask for new long lat")
-		#line = raw_input()
+		"""
+		Gets and processes new data from the GPS.
+		This gets the geographic latitude and longitude, bearing, and ground speed from the GPS.
+
+		@return: None.
+		"""
+		# add new geographic point from GPS to breadcrumbs
 		self.centerLatLong = self.gpsReader.getLongLat()
-		#print ("  about to add new breadcrumb")
-		#line = raw_input()   
 		self.breadcrumbs.addPoint(self.centerLatLong)
 		
-		
-		#breadcrumbsFake = [(-72.57398,42.25478),(-72.57387,42.254746),(-72.57380,42.254724),(-72.57369,42.254687),(-72.57362,42.254665),(-72.57356,42.254646),(-72.57345,42.254609),(-72.57338,42.254586),(-72.57326,42.254549),  (-72.57294,42.254445)]
-		#if (self.index < len(breadcrumbsFake)):
-		#self.centerLatLong = breadcrumbsFake[self.index]
-		#self.index += 1 
 		print("\n^^^^^^^^^^^^^^^^^^^^^^^^^\n   new point: {0}".format(self.centerLatLong))
-		#self.breadcrumbs.addPoint(self.centerLatLong)
 		
-		#self.breadcrumbs.addPoint(self.centerLatLong)
-		#self.rotation = self.gpsReader.getBearing()
-		#self.groundSpeed = self.gpsReader.getGroundSpeed()
+		# get bearing & ground speed from GPS
 		groundSpeedBearing = self.gpsReader.getGroundSpeedAndBearing()
-
 		self.rotation = groundSpeedBearing[1]
 		self.groundSpeed = groundSpeedBearing[0]
 
 
-	def run(self):
-		print("\n\nin run")
-		#index = 0
-		#self.mainloop()
+	# --- Event Handling ------------------------------------------ #
+	     
+	def clearBreadcrumbs(self):
+		"""
+		Clears all added breadcrumbs from the display. 
+		Does not remove them from memory.
 
-		# while True:
-		# 	print("about to get new gps data")  
-		# 	line = raw_input()
-		# 	self.newGPSData() 
-
-		# 	print ("about to update display")
-		# 	line = raw_input()
-
-		# 	self.refreshDisplay() 
-		# 	#index += 1
-		# 	#if index > 5:
-		# 	#	return
-		# 	print ("about to enter new update loop")
-		# 	line = raw_input()
-
-		#**self.newGPSData() 
-
-		self.refreshDisplay() 
-
-		self.after(100, self.run) 
-
-		#self.refreshDisplay()
+		@return: None.
+		"""
+		self.breadcrumbs.clear()
 
 
+	def zoomIn(self):
+		"""
+		Zooms into the display by a pre-determined amount.
+
+		@return: None.
+		"""
+		self.zoom( zoomInFactor )
+
+
+	def zoomOut(self):
+		"""
+		Zooms out of the display by a pre-determined amount.
+
+		@return: None.
+		"""
+		self.zoom( zoomOutFactor )
+
+
+	def zoom(self, factor):
+		"""
+		Zooms the display by the given factor.
+		This multiplies the scale of the display by the given factor.
+
+		@return: None.
+		"""
+		self.scale *= factor
+		print("...\n  new scale: {0}\n...".format(self.scale))
+		self.refreshDisplay()
 
 
 
-
+# ----------------------------------------------------------------- #
+# --- MAIN - FOR TESTING ------------------------------------------ #
+# ----------------------------------------------------------------- #
 
 if __name__ == "__main__":
     # Starts the program.
     navigationManager = NavigationManager() 
     navigationManager.mainloop()
     navigationManager.run()
-
-
-
-
-
