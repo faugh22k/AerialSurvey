@@ -26,6 +26,7 @@ class AerialSurveyApplication(Tk):
 	colour_breadcrumbs = "#135e1c"
 	colour_flightlines = "#ffff33"
 	colour_ramps = "#ff0000"
+	colour_plane = "#000000"
 
 	# weight variables
 	weight_breadcrumbs = 5
@@ -109,7 +110,7 @@ class AerialSurveyApplication(Tk):
 		self.colour_ramps = self.preflightMode.getColorRamps()
 		self.colour_breadcrumbs = self.preflightMode.getColorBreadcrumbs()
 		self.colour_background = self.preflightMode.getColorBackground()
-		self.plane = self.preflightMode.getColorPlane()
+		self.colour_plane = self.preflightMode.getColorPlane()
 
 		# pre-flight mode -> in-flight mode
 		self.switchModes()
