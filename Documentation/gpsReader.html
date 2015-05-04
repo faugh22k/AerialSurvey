@@ -1,0 +1,87 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module gpsReader</title>
+<meta charset="utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>gpsReader</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:///C:/documents%20and%20settings/elizabeth%20fong/my%20documents/aerialsurvey/objecttransformation/gpsreader.py">c:\documents and settings\elizabeth fong\my documents\aerialsurvey\objecttransformation\gpsreader.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="datetime.html">datetime</a><br>
+<a href="pynmea.pynmea.nmea.html">pynmea.pynmea.nmea</a><br>
+<a href="pyserial.serial.html">pyserial.serial</a><br>
+</td><td width="25%" valign=top><a href="pyserial.serial.serialutil.html">pyserial.serial.serialutil</a><br>
+<a href="pyserial.serial.serialwin32.html">pyserial.serial.serialwin32</a><br>
+<a href="shutil.html">shutil</a><br>
+</td><td width="25%" valign=top><a href="sys.html">sys</a><br>
+<a href="threading.html">threading</a><br>
+<a href="time.html">time</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="gpsReader.html#GPSReader">GPSReader</a>
+</font></dt></dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="GPSReader">class <strong>GPSReader</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>GPS&nbsp;Reader&nbsp;for&nbsp;reading&nbsp;GPS&nbsp;data.<br>
+&nbsp;<br>
+@author:&nbsp;Kim&nbsp;Faughnan,&nbsp;Elizabeth&nbsp;Fong,&nbsp;Spring&nbsp;2015<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="GPSReader-__init__"><strong>__init__</strong></a>(self, gpggaComnum<font color="#909090">='COM1'</font>, gpggaBaudrate<font color="#909090">=4800</font>, gpvtgComnum<font color="#909090">='COM2'</font>, gpvtgBaudrate<font color="#909090">=4800</font>)</dt><dd><tt>Constructor:&nbsp;Initialises&nbsp;the&nbsp;GPS&nbsp;reader.<br>
+&nbsp;<br>
+@return:&nbsp;None.</tt></dd></dl>
+
+<dl><dt><a name="GPSReader-getGroundSpeedAndBearing"><strong>getGroundSpeedAndBearing</strong></a>(self)</dt><dd><tt>Returns&nbsp;the&nbsp;ground&nbsp;speed&nbsp;and&nbsp;bearing&nbsp;read&nbsp;from&nbsp;the&nbsp;GPS,&nbsp;as&nbsp;a&nbsp;duple,&nbsp;with&nbsp;the&nbsp;format<br>
+(ground&nbsp;speed,&nbsp;bearing).<br>
+&nbsp;<br>
+@return:&nbsp;The&nbsp;ground&nbsp;speed&nbsp;and&nbsp;bearing.</tt></dd></dl>
+
+<dl><dt><a name="GPSReader-getLongLat"><strong>getLongLat</strong></a>(self)</dt><dd><tt>Returns&nbsp;the&nbsp;geographic&nbsp;coordinates&nbsp;as&nbsp;a&nbsp;duple,&nbsp;in&nbsp;the&nbsp;format&nbsp;(longitude,latitude).<br>
+&nbsp;<br>
+@return&nbsp;The&nbsp;geographic&nbsp;coordinates,&nbsp;(longitude,latitude).</tt></dd></dl>
+
+<dl><dt><a name="GPSReader-initConnections"><strong>initConnections</strong></a>(self)</dt><dd><tt>Initialises&nbsp;connections&nbsp;to&nbsp;the&nbsp;bluetooth&nbsp;GPS.<br>
+&nbsp;<br>
+@return:&nbsp;None.</tt></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>currentPosition</strong> = None</dl>
+
+<dl><dt><strong>gpggaBAUDRATE</strong> = None</dl>
+
+<dl><dt><strong>gpggaComnum</strong> = None</dl>
+
+<dl><dt><strong>gpggaSerial</strong> = None</dl>
+
+<dl><dt><strong>gpvtgBAUDRATE</strong> = None</dl>
+
+<dl><dt><strong>gpvtgComnum</strong> = None</dl>
+
+<dl><dt><strong>gpvtgSerial</strong> = None</dl>
+
+</td></tr></table></td></tr></table>
+</body></html>

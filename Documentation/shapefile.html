@@ -1,0 +1,347 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module shapefile</title>
+<meta charset="utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>shapefile</strong></big></big> (version 1.2.1)</font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:///C:/documents%20and%20settings/elizabeth%20fong/my%20documents/aerialsurvey/objecttransformation/shapefile.py">c:\documents and settings\elizabeth fong\my documents\aerialsurvey\objecttransformation\shapefile.py</a></font></td></tr></table>
+    <p><tt>shapefile.py<br>
+Provides&nbsp;read&nbsp;and&nbsp;write&nbsp;support&nbsp;for&nbsp;ESRI&nbsp;Shapefiles.<br>
+author:&nbsp;jlawhead&lt;at&gt;geospatialpython.com<br>
+date:&nbsp;20140507<br>
+version:&nbsp;1.2.1<br>
+Compatible&nbsp;with&nbsp;Python&nbsp;versions&nbsp;2.4-3.x<br>
+version&nbsp;changelog:&nbsp;Fixed&nbsp;<a href="#-u">u</a>()&nbsp;to&nbsp;just&nbsp;return&nbsp;the&nbsp;byte&nbsp;sequence&nbsp;on&nbsp;exception</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="array.html">array</a><br>
+<a href="itertools.html">itertools</a><br>
+</td><td width="25%" valign=top><a href="os.html">os</a><br>
+<a href="sys.html">sys</a><br>
+</td><td width="25%" valign=top><a href="tempfile.html">tempfile</a><br>
+<a href="time.html">time</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="exceptions.html#Exception">exceptions.Exception</a>(<a href="exceptions.html#BaseException">exceptions.BaseException</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="shapefile.html#ShapefileException">ShapefileException</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="shapefile.html#Reader">Reader</a>
+</font></dt><dt><font face="helvetica, arial"><a href="shapefile.html#Writer">Writer</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="shapefile.html#Editor">Editor</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Editor">class <strong>Editor</strong></a>(<a href="shapefile.html#Writer">Writer</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Editor-__init__"><strong>__init__</strong></a>(self, shapefile<font color="#909090">=None</font>, shapeType<font color="#909090">=1</font>, autoBalance<font color="#909090">=1</font>)</dt></dl>
+
+<dl><dt><a name="Editor-balance"><strong>balance</strong></a>(self)</dt><dd><tt>Adds&nbsp;a&nbsp;corresponding&nbsp;empty&nbsp;attribute&nbsp;or&nbsp;null&nbsp;geometry&nbsp;record&nbsp;depending<br>
+on&nbsp;which&nbsp;type&nbsp;of&nbsp;record&nbsp;was&nbsp;created&nbsp;to&nbsp;make&nbsp;sure&nbsp;all&nbsp;three&nbsp;files<br>
+are&nbsp;in&nbsp;synch.</tt></dd></dl>
+
+<dl><dt><a name="Editor-delete"><strong>delete</strong></a>(self, shape<font color="#909090">=None</font>, part<font color="#909090">=None</font>, point<font color="#909090">=None</font>)</dt><dd><tt>Deletes&nbsp;the&nbsp;specified&nbsp;part&nbsp;of&nbsp;any&nbsp;shape&nbsp;by&nbsp;specifying&nbsp;a&nbsp;shape<br>
+number,&nbsp;part&nbsp;number,&nbsp;or&nbsp;point&nbsp;number.</tt></dd></dl>
+
+<dl><dt><a name="Editor-point"><strong>point</strong></a>(self, x<font color="#909090">=None</font>, y<font color="#909090">=None</font>, z<font color="#909090">=None</font>, m<font color="#909090">=None</font>, shape<font color="#909090">=None</font>, part<font color="#909090">=None</font>, point<font color="#909090">=None</font>, addr<font color="#909090">=None</font>)</dt><dd><tt>Creates/updates&nbsp;a&nbsp;point&nbsp;shape.&nbsp;The&nbsp;arguments&nbsp;allows<br>
+you&nbsp;to&nbsp;update&nbsp;a&nbsp;specific&nbsp;point&nbsp;by&nbsp;shape,&nbsp;part,&nbsp;point&nbsp;of&nbsp;any<br>
+shape&nbsp;type.</tt></dd></dl>
+
+<dl><dt><a name="Editor-select"><strong>select</strong></a>(self, expr)</dt><dd><tt>Select&nbsp;one&nbsp;or&nbsp;more&nbsp;shapes&nbsp;(to&nbsp;be&nbsp;implemented)</tt></dd></dl>
+
+<dl><dt><a name="Editor-validate"><strong>validate</strong></a>(self)</dt><dd><tt>An&nbsp;optional&nbsp;method&nbsp;to&nbsp;try&nbsp;and&nbsp;validate&nbsp;the&nbsp;shapefile<br>
+as&nbsp;much&nbsp;as&nbsp;possible&nbsp;before&nbsp;writing&nbsp;it&nbsp;(not&nbsp;implemented).</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="shapefile.html#Writer">Writer</a>:<br>
+<dl><dt><a name="Editor-bbox"><strong>bbox</strong></a>(self)</dt><dd><tt>Returns&nbsp;the&nbsp;current&nbsp;bounding&nbsp;box&nbsp;for&nbsp;the&nbsp;shapefile&nbsp;which&nbsp;is<br>
+the&nbsp;lower-left&nbsp;and&nbsp;upper-right&nbsp;corners.&nbsp;It&nbsp;does&nbsp;not&nbsp;contain&nbsp;the<br>
+elevation&nbsp;or&nbsp;measure&nbsp;extremes.</tt></dd></dl>
+
+<dl><dt><a name="Editor-field"><strong>field</strong></a>(self, name, fieldType<font color="#909090">='C'</font>, size<font color="#909090">='50'</font>, decimal<font color="#909090">=0</font>)</dt><dd><tt>Adds&nbsp;a&nbsp;dbf&nbsp;field&nbsp;descriptor&nbsp;to&nbsp;the&nbsp;shapefile.</tt></dd></dl>
+
+<dl><dt><a name="Editor-line"><strong>line</strong></a>(self, parts<font color="#909090">=[]</font>, shapeType<font color="#909090">=3</font>)</dt><dd><tt>Creates&nbsp;a&nbsp;line&nbsp;shape.&nbsp;This&nbsp;method&nbsp;is&nbsp;just&nbsp;a&nbsp;convienience&nbsp;method<br>
+which&nbsp;wraps&nbsp;'<a href="#Editor-poly">poly</a>()'.</tt></dd></dl>
+
+<dl><dt><a name="Editor-mbox"><strong>mbox</strong></a>(self)</dt><dd><tt>Returns&nbsp;the&nbsp;current&nbsp;m&nbsp;extremes&nbsp;for&nbsp;the&nbsp;shapefile.</tt></dd></dl>
+
+<dl><dt><a name="Editor-null"><strong>null</strong></a>(self)</dt><dd><tt>Creates&nbsp;a&nbsp;null&nbsp;shape.</tt></dd></dl>
+
+<dl><dt><a name="Editor-poly"><strong>poly</strong></a>(self, parts<font color="#909090">=[]</font>, shapeType<font color="#909090">=5</font>, partTypes<font color="#909090">=[]</font>)</dt><dd><tt>Creates&nbsp;a&nbsp;shape&nbsp;that&nbsp;has&nbsp;multiple&nbsp;collections&nbsp;of&nbsp;points&nbsp;(parts)<br>
+including&nbsp;lines,&nbsp;polygons,&nbsp;and&nbsp;even&nbsp;multipoint&nbsp;shapes.&nbsp;If&nbsp;no&nbsp;shape&nbsp;type<br>
+is&nbsp;specified&nbsp;it&nbsp;defaults&nbsp;to&nbsp;'polygon'.&nbsp;If&nbsp;no&nbsp;part&nbsp;types&nbsp;are&nbsp;specified<br>
+(which&nbsp;they&nbsp;normally&nbsp;won't&nbsp;be)&nbsp;then&nbsp;all&nbsp;parts&nbsp;default&nbsp;to&nbsp;the&nbsp;shape&nbsp;type.</tt></dd></dl>
+
+<dl><dt><a name="Editor-record"><strong>record</strong></a>(self, *recordList, **recordDict)</dt><dd><tt>Creates&nbsp;a&nbsp;dbf&nbsp;attribute&nbsp;record.&nbsp;You&nbsp;can&nbsp;submit&nbsp;either&nbsp;a&nbsp;sequence&nbsp;of<br>
+field&nbsp;values&nbsp;or&nbsp;keyword&nbsp;arguments&nbsp;of&nbsp;field&nbsp;names&nbsp;and&nbsp;values.&nbsp;Before<br>
+adding&nbsp;records&nbsp;you&nbsp;must&nbsp;add&nbsp;fields&nbsp;for&nbsp;the&nbsp;record&nbsp;values&nbsp;using&nbsp;the<br>
+fields()&nbsp;method.&nbsp;If&nbsp;the&nbsp;record&nbsp;values&nbsp;exceed&nbsp;the&nbsp;number&nbsp;of&nbsp;fields&nbsp;the<br>
+extra&nbsp;ones&nbsp;won't&nbsp;be&nbsp;added.&nbsp;In&nbsp;the&nbsp;case&nbsp;of&nbsp;using&nbsp;keyword&nbsp;arguments&nbsp;to&nbsp;specify<br>
+field/value&nbsp;pairs&nbsp;only&nbsp;fields&nbsp;matching&nbsp;the&nbsp;already&nbsp;registered&nbsp;fields<br>
+will&nbsp;be&nbsp;added.</tt></dd></dl>
+
+<dl><dt><a name="Editor-save"><strong>save</strong></a>(self, target<font color="#909090">=None</font>, shp<font color="#909090">=None</font>, shx<font color="#909090">=None</font>, dbf<font color="#909090">=None</font>)</dt><dd><tt>Save&nbsp;the&nbsp;shapefile&nbsp;data&nbsp;to&nbsp;three&nbsp;files&nbsp;or<br>
+three&nbsp;file-like&nbsp;objects.&nbsp;SHP&nbsp;and&nbsp;DBF&nbsp;files&nbsp;can&nbsp;also<br>
+be&nbsp;written&nbsp;exclusively&nbsp;using&nbsp;saveShp,&nbsp;saveShx,&nbsp;and&nbsp;saveDbf&nbsp;respectively.<br>
+If&nbsp;target&nbsp;is&nbsp;specified&nbsp;but&nbsp;not&nbsp;shp,shx,&nbsp;or&nbsp;dbf&nbsp;then&nbsp;the&nbsp;target&nbsp;path&nbsp;and<br>
+file&nbsp;name&nbsp;are&nbsp;used.&nbsp;&nbsp;If&nbsp;no&nbsp;options&nbsp;or&nbsp;specified,&nbsp;a&nbsp;unique&nbsp;base&nbsp;file&nbsp;name<br>
+is&nbsp;generated&nbsp;to&nbsp;save&nbsp;the&nbsp;files&nbsp;and&nbsp;the&nbsp;base&nbsp;file&nbsp;name&nbsp;is&nbsp;returned&nbsp;as&nbsp;a&nbsp;<br>
+string.</tt></dd></dl>
+
+<dl><dt><a name="Editor-saveDbf"><strong>saveDbf</strong></a>(self, target)</dt><dd><tt>Save&nbsp;a&nbsp;dbf&nbsp;file.</tt></dd></dl>
+
+<dl><dt><a name="Editor-saveShp"><strong>saveShp</strong></a>(self, target)</dt><dd><tt>Save&nbsp;an&nbsp;shp&nbsp;file.</tt></dd></dl>
+
+<dl><dt><a name="Editor-saveShx"><strong>saveShx</strong></a>(self, target)</dt><dd><tt>Save&nbsp;an&nbsp;shx&nbsp;file.</tt></dd></dl>
+
+<dl><dt><a name="Editor-shape"><strong>shape</strong></a>(self, i)</dt></dl>
+
+<dl><dt><a name="Editor-shapes"><strong>shapes</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;current&nbsp;list&nbsp;of&nbsp;shapes.</tt></dd></dl>
+
+<dl><dt><a name="Editor-zbox"><strong>zbox</strong></a>(self)</dt><dd><tt>Returns&nbsp;the&nbsp;current&nbsp;z&nbsp;extremes&nbsp;for&nbsp;the&nbsp;shapefile.</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Reader">class <strong>Reader</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Reads&nbsp;the&nbsp;three&nbsp;files&nbsp;of&nbsp;a&nbsp;shapefile&nbsp;as&nbsp;a&nbsp;unit&nbsp;or<br>
+separately.&nbsp;&nbsp;If&nbsp;one&nbsp;of&nbsp;the&nbsp;three&nbsp;files&nbsp;(.shp,&nbsp;.shx,<br>
+.dbf)&nbsp;is&nbsp;missing&nbsp;no&nbsp;exception&nbsp;is&nbsp;thrown&nbsp;until&nbsp;you&nbsp;try<br>
+to&nbsp;call&nbsp;a&nbsp;method&nbsp;that&nbsp;depends&nbsp;on&nbsp;that&nbsp;particular&nbsp;file.<br>
+The&nbsp;.shx&nbsp;index&nbsp;file&nbsp;is&nbsp;used&nbsp;if&nbsp;available&nbsp;for&nbsp;efficiency<br>
+but&nbsp;is&nbsp;not&nbsp;required&nbsp;to&nbsp;read&nbsp;the&nbsp;geometry&nbsp;from&nbsp;the&nbsp;.shp<br>
+file.&nbsp;The&nbsp;"shapefile"&nbsp;argument&nbsp;in&nbsp;the&nbsp;constructor&nbsp;is&nbsp;the<br>
+name&nbsp;of&nbsp;the&nbsp;file&nbsp;you&nbsp;want&nbsp;to&nbsp;open.<br>
+&nbsp;<br>
+You&nbsp;can&nbsp;instantiate&nbsp;a&nbsp;<a href="#Reader">Reader</a>&nbsp;without&nbsp;specifying&nbsp;a&nbsp;shapefile<br>
+and&nbsp;then&nbsp;specify&nbsp;one&nbsp;later&nbsp;with&nbsp;the&nbsp;<a href="#Reader-load">load</a>()&nbsp;method.<br>
+&nbsp;<br>
+Only&nbsp;the&nbsp;shapefile&nbsp;headers&nbsp;are&nbsp;read&nbsp;upon&nbsp;loading.&nbsp;Content<br>
+within&nbsp;each&nbsp;file&nbsp;is&nbsp;only&nbsp;accessed&nbsp;when&nbsp;required&nbsp;and&nbsp;as<br>
+efficiently&nbsp;as&nbsp;possible.&nbsp;Shapefiles&nbsp;are&nbsp;usually&nbsp;not&nbsp;large<br>
+but&nbsp;they&nbsp;can&nbsp;be.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Reader-__init__"><strong>__init__</strong></a>(self, *args, **kwargs)</dt></dl>
+
+<dl><dt><a name="Reader-iterRecords"><strong>iterRecords</strong></a>(self)</dt><dd><tt>Serves&nbsp;up&nbsp;records&nbsp;in&nbsp;a&nbsp;dbf&nbsp;file&nbsp;as&nbsp;an&nbsp;iterator.<br>
+Useful&nbsp;for&nbsp;large&nbsp;shapefiles&nbsp;or&nbsp;dbf&nbsp;files.</tt></dd></dl>
+
+<dl><dt><a name="Reader-iterShapeRecords"><strong>iterShapeRecords</strong></a>(self)</dt><dd><tt>Returns&nbsp;a&nbsp;generator&nbsp;of&nbsp;combination&nbsp;geometry/attribute&nbsp;records&nbsp;for<br>
+all&nbsp;records&nbsp;in&nbsp;a&nbsp;shapefile.</tt></dd></dl>
+
+<dl><dt><a name="Reader-iterShapes"><strong>iterShapes</strong></a>(self)</dt><dd><tt>Serves&nbsp;up&nbsp;shapes&nbsp;in&nbsp;a&nbsp;shapefile&nbsp;as&nbsp;an&nbsp;iterator.&nbsp;Useful<br>
+for&nbsp;handling&nbsp;large&nbsp;shapefiles.</tt></dd></dl>
+
+<dl><dt><a name="Reader-load"><strong>load</strong></a>(self, shapefile<font color="#909090">=None</font>)</dt><dd><tt>Opens&nbsp;a&nbsp;shapefile&nbsp;from&nbsp;a&nbsp;filename&nbsp;or&nbsp;file-like<br>
+object.&nbsp;Normally&nbsp;this&nbsp;method&nbsp;would&nbsp;be&nbsp;called&nbsp;by&nbsp;the<br>
+constructor&nbsp;with&nbsp;the&nbsp;file&nbsp;object&nbsp;or&nbsp;file&nbsp;name&nbsp;as&nbsp;an<br>
+argument.</tt></dd></dl>
+
+<dl><dt><a name="Reader-record"><strong>record</strong></a>(self, i<font color="#909090">=0</font>)</dt><dd><tt>Returns&nbsp;a&nbsp;specific&nbsp;dbf&nbsp;record&nbsp;based&nbsp;on&nbsp;the&nbsp;supplied&nbsp;index.</tt></dd></dl>
+
+<dl><dt><a name="Reader-records"><strong>records</strong></a>(self)</dt><dd><tt>Returns&nbsp;all&nbsp;records&nbsp;in&nbsp;a&nbsp;dbf&nbsp;file.</tt></dd></dl>
+
+<dl><dt><a name="Reader-shape"><strong>shape</strong></a>(self, i<font color="#909090">=0</font>)</dt><dd><tt>Returns&nbsp;a&nbsp;shape&nbsp;object&nbsp;for&nbsp;a&nbsp;shape&nbsp;in&nbsp;the&nbsp;the&nbsp;geometry<br>
+record&nbsp;file.</tt></dd></dl>
+
+<dl><dt><a name="Reader-shapeRecord"><strong>shapeRecord</strong></a>(self, i<font color="#909090">=0</font>)</dt><dd><tt>Returns&nbsp;a&nbsp;combination&nbsp;geometry&nbsp;and&nbsp;attribute&nbsp;record&nbsp;for&nbsp;the<br>
+supplied&nbsp;record&nbsp;index.</tt></dd></dl>
+
+<dl><dt><a name="Reader-shapeRecords"><strong>shapeRecords</strong></a>(self)</dt><dd><tt>Returns&nbsp;a&nbsp;list&nbsp;of&nbsp;combination&nbsp;geometry/attribute&nbsp;records&nbsp;for<br>
+all&nbsp;records&nbsp;in&nbsp;a&nbsp;shapefile.</tt></dd></dl>
+
+<dl><dt><a name="Reader-shapes"><strong>shapes</strong></a>(self)</dt><dd><tt>Returns&nbsp;all&nbsp;shapes&nbsp;in&nbsp;a&nbsp;shapefile.</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ShapefileException">class <strong>ShapefileException</strong></a>(<a href="exceptions.html#Exception">exceptions.Exception</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>An&nbsp;exception&nbsp;to&nbsp;handle&nbsp;shapefile&nbsp;specific&nbsp;problems.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="shapefile.html#ShapefileException">ShapefileException</a></dd>
+<dd><a href="exceptions.html#Exception">exceptions.Exception</a></dd>
+<dd><a href="exceptions.html#BaseException">exceptions.BaseException</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Methods inherited from <a href="exceptions.html#Exception">exceptions.Exception</a>:<br>
+<dl><dt><a name="ShapefileException-__init__"><strong>__init__</strong></a>(...)</dt><dd><tt>x.<a href="#ShapefileException-__init__">__init__</a>(...)&nbsp;initializes&nbsp;x;&nbsp;see&nbsp;help(type(x))&nbsp;for&nbsp;signature</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="exceptions.html#Exception">exceptions.Exception</a>:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;<dd><tt>T.<a href="#ShapefileException-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;object&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dl>
+
+<hr>
+Methods inherited from <a href="exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><a name="ShapefileException-__delattr__"><strong>__delattr__</strong></a>(...)</dt><dd><tt>x.<a href="#ShapefileException-__delattr__">__delattr__</a>('name')&nbsp;&lt;==&gt;&nbsp;del&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="ShapefileException-__getattribute__"><strong>__getattribute__</strong></a>(...)</dt><dd><tt>x.<a href="#ShapefileException-__getattribute__">__getattribute__</a>('name')&nbsp;&lt;==&gt;&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="ShapefileException-__getitem__"><strong>__getitem__</strong></a>(...)</dt><dd><tt>x.<a href="#ShapefileException-__getitem__">__getitem__</a>(y)&nbsp;&lt;==&gt;&nbsp;x[y]</tt></dd></dl>
+
+<dl><dt><a name="ShapefileException-__getslice__"><strong>__getslice__</strong></a>(...)</dt><dd><tt>x.<a href="#ShapefileException-__getslice__">__getslice__</a>(i,&nbsp;j)&nbsp;&lt;==&gt;&nbsp;x[i:j]<br>
+&nbsp;<br>
+Use&nbsp;of&nbsp;negative&nbsp;indices&nbsp;is&nbsp;not&nbsp;supported.</tt></dd></dl>
+
+<dl><dt><a name="ShapefileException-__reduce__"><strong>__reduce__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ShapefileException-__repr__"><strong>__repr__</strong></a>(...)</dt><dd><tt>x.<a href="#ShapefileException-__repr__">__repr__</a>()&nbsp;&lt;==&gt;&nbsp;repr(x)</tt></dd></dl>
+
+<dl><dt><a name="ShapefileException-__setattr__"><strong>__setattr__</strong></a>(...)</dt><dd><tt>x.<a href="#ShapefileException-__setattr__">__setattr__</a>('name',&nbsp;value)&nbsp;&lt;==&gt;&nbsp;x.name&nbsp;=&nbsp;value</tt></dd></dl>
+
+<dl><dt><a name="ShapefileException-__setstate__"><strong>__setstate__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ShapefileException-__str__"><strong>__str__</strong></a>(...)</dt><dd><tt>x.<a href="#ShapefileException-__str__">__str__</a>()&nbsp;&lt;==&gt;&nbsp;str(x)</tt></dd></dl>
+
+<dl><dt><a name="ShapefileException-__unicode__"><strong>__unicode__</strong></a>(...)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+</dl>
+<dl><dt><strong>args</strong></dt>
+</dl>
+<dl><dt><strong>message</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Writer">class <strong>Writer</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Provides&nbsp;write&nbsp;support&nbsp;for&nbsp;ESRI&nbsp;Shapefiles.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Writer-__init__"><strong>__init__</strong></a>(self, shapeType<font color="#909090">=None</font>)</dt></dl>
+
+<dl><dt><a name="Writer-bbox"><strong>bbox</strong></a>(self)</dt><dd><tt>Returns&nbsp;the&nbsp;current&nbsp;bounding&nbsp;box&nbsp;for&nbsp;the&nbsp;shapefile&nbsp;which&nbsp;is<br>
+the&nbsp;lower-left&nbsp;and&nbsp;upper-right&nbsp;corners.&nbsp;It&nbsp;does&nbsp;not&nbsp;contain&nbsp;the<br>
+elevation&nbsp;or&nbsp;measure&nbsp;extremes.</tt></dd></dl>
+
+<dl><dt><a name="Writer-field"><strong>field</strong></a>(self, name, fieldType<font color="#909090">='C'</font>, size<font color="#909090">='50'</font>, decimal<font color="#909090">=0</font>)</dt><dd><tt>Adds&nbsp;a&nbsp;dbf&nbsp;field&nbsp;descriptor&nbsp;to&nbsp;the&nbsp;shapefile.</tt></dd></dl>
+
+<dl><dt><a name="Writer-line"><strong>line</strong></a>(self, parts<font color="#909090">=[]</font>, shapeType<font color="#909090">=3</font>)</dt><dd><tt>Creates&nbsp;a&nbsp;line&nbsp;shape.&nbsp;This&nbsp;method&nbsp;is&nbsp;just&nbsp;a&nbsp;convienience&nbsp;method<br>
+which&nbsp;wraps&nbsp;'<a href="#Writer-poly">poly</a>()'.</tt></dd></dl>
+
+<dl><dt><a name="Writer-mbox"><strong>mbox</strong></a>(self)</dt><dd><tt>Returns&nbsp;the&nbsp;current&nbsp;m&nbsp;extremes&nbsp;for&nbsp;the&nbsp;shapefile.</tt></dd></dl>
+
+<dl><dt><a name="Writer-null"><strong>null</strong></a>(self)</dt><dd><tt>Creates&nbsp;a&nbsp;null&nbsp;shape.</tt></dd></dl>
+
+<dl><dt><a name="Writer-point"><strong>point</strong></a>(self, x, y, z<font color="#909090">=0</font>, m<font color="#909090">=0</font>)</dt><dd><tt>Creates&nbsp;a&nbsp;point&nbsp;shape.</tt></dd></dl>
+
+<dl><dt><a name="Writer-poly"><strong>poly</strong></a>(self, parts<font color="#909090">=[]</font>, shapeType<font color="#909090">=5</font>, partTypes<font color="#909090">=[]</font>)</dt><dd><tt>Creates&nbsp;a&nbsp;shape&nbsp;that&nbsp;has&nbsp;multiple&nbsp;collections&nbsp;of&nbsp;points&nbsp;(parts)<br>
+including&nbsp;lines,&nbsp;polygons,&nbsp;and&nbsp;even&nbsp;multipoint&nbsp;shapes.&nbsp;If&nbsp;no&nbsp;shape&nbsp;type<br>
+is&nbsp;specified&nbsp;it&nbsp;defaults&nbsp;to&nbsp;'polygon'.&nbsp;If&nbsp;no&nbsp;part&nbsp;types&nbsp;are&nbsp;specified<br>
+(which&nbsp;they&nbsp;normally&nbsp;won't&nbsp;be)&nbsp;then&nbsp;all&nbsp;parts&nbsp;default&nbsp;to&nbsp;the&nbsp;shape&nbsp;type.</tt></dd></dl>
+
+<dl><dt><a name="Writer-record"><strong>record</strong></a>(self, *recordList, **recordDict)</dt><dd><tt>Creates&nbsp;a&nbsp;dbf&nbsp;attribute&nbsp;record.&nbsp;You&nbsp;can&nbsp;submit&nbsp;either&nbsp;a&nbsp;sequence&nbsp;of<br>
+field&nbsp;values&nbsp;or&nbsp;keyword&nbsp;arguments&nbsp;of&nbsp;field&nbsp;names&nbsp;and&nbsp;values.&nbsp;Before<br>
+adding&nbsp;records&nbsp;you&nbsp;must&nbsp;add&nbsp;fields&nbsp;for&nbsp;the&nbsp;record&nbsp;values&nbsp;using&nbsp;the<br>
+fields()&nbsp;method.&nbsp;If&nbsp;the&nbsp;record&nbsp;values&nbsp;exceed&nbsp;the&nbsp;number&nbsp;of&nbsp;fields&nbsp;the<br>
+extra&nbsp;ones&nbsp;won't&nbsp;be&nbsp;added.&nbsp;In&nbsp;the&nbsp;case&nbsp;of&nbsp;using&nbsp;keyword&nbsp;arguments&nbsp;to&nbsp;specify<br>
+field/value&nbsp;pairs&nbsp;only&nbsp;fields&nbsp;matching&nbsp;the&nbsp;already&nbsp;registered&nbsp;fields<br>
+will&nbsp;be&nbsp;added.</tt></dd></dl>
+
+<dl><dt><a name="Writer-save"><strong>save</strong></a>(self, target<font color="#909090">=None</font>, shp<font color="#909090">=None</font>, shx<font color="#909090">=None</font>, dbf<font color="#909090">=None</font>)</dt><dd><tt>Save&nbsp;the&nbsp;shapefile&nbsp;data&nbsp;to&nbsp;three&nbsp;files&nbsp;or<br>
+three&nbsp;file-like&nbsp;objects.&nbsp;SHP&nbsp;and&nbsp;DBF&nbsp;files&nbsp;can&nbsp;also<br>
+be&nbsp;written&nbsp;exclusively&nbsp;using&nbsp;saveShp,&nbsp;saveShx,&nbsp;and&nbsp;saveDbf&nbsp;respectively.<br>
+If&nbsp;target&nbsp;is&nbsp;specified&nbsp;but&nbsp;not&nbsp;shp,shx,&nbsp;or&nbsp;dbf&nbsp;then&nbsp;the&nbsp;target&nbsp;path&nbsp;and<br>
+file&nbsp;name&nbsp;are&nbsp;used.&nbsp;&nbsp;If&nbsp;no&nbsp;options&nbsp;or&nbsp;specified,&nbsp;a&nbsp;unique&nbsp;base&nbsp;file&nbsp;name<br>
+is&nbsp;generated&nbsp;to&nbsp;save&nbsp;the&nbsp;files&nbsp;and&nbsp;the&nbsp;base&nbsp;file&nbsp;name&nbsp;is&nbsp;returned&nbsp;as&nbsp;a&nbsp;<br>
+string.</tt></dd></dl>
+
+<dl><dt><a name="Writer-saveDbf"><strong>saveDbf</strong></a>(self, target)</dt><dd><tt>Save&nbsp;a&nbsp;dbf&nbsp;file.</tt></dd></dl>
+
+<dl><dt><a name="Writer-saveShp"><strong>saveShp</strong></a>(self, target)</dt><dd><tt>Save&nbsp;an&nbsp;shp&nbsp;file.</tt></dd></dl>
+
+<dl><dt><a name="Writer-saveShx"><strong>saveShx</strong></a>(self, target)</dt><dd><tt>Save&nbsp;an&nbsp;shx&nbsp;file.</tt></dd></dl>
+
+<dl><dt><a name="Writer-shape"><strong>shape</strong></a>(self, i)</dt></dl>
+
+<dl><dt><a name="Writer-shapes"><strong>shapes</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;current&nbsp;list&nbsp;of&nbsp;shapes.</tt></dd></dl>
+
+<dl><dt><a name="Writer-zbox"><strong>zbox</strong></a>(self)</dt><dd><tt>Returns&nbsp;the&nbsp;current&nbsp;z&nbsp;extremes&nbsp;for&nbsp;the&nbsp;shapefile.</tt></dd></dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-b"><strong>b</strong></a>(v)</dt></dl>
+ <dl><dt><a name="-calcsize"><strong>calcsize</strong></a>(...)</dt><dd><tt>Return&nbsp;size&nbsp;of&nbsp;C&nbsp;struct&nbsp;described&nbsp;by&nbsp;format&nbsp;string&nbsp;fmt.</tt></dd></dl>
+ <dl><dt><a name="-is_string"><strong>is_string</strong></a>(v)</dt></dl>
+ <dl><dt><a name="-pack"><strong>pack</strong></a>(...)</dt><dd><tt>Return&nbsp;string&nbsp;containing&nbsp;values&nbsp;v1,&nbsp;v2,&nbsp;...&nbsp;packed&nbsp;according&nbsp;to&nbsp;fmt.</tt></dd></dl>
+ <dl><dt><a name="-signed_area"><strong>signed_area</strong></a>(coords)</dt><dd><tt>Return&nbsp;the&nbsp;signed&nbsp;area&nbsp;enclosed&nbsp;by&nbsp;a&nbsp;ring&nbsp;using&nbsp;the&nbsp;linear&nbsp;time<br>
+algorithm&nbsp;at&nbsp;<a href="http://www.cgafaq.info/wiki/Polygon_Area">http://www.cgafaq.info/wiki/Polygon_Area</a>.&nbsp;A&nbsp;value&nbsp;&gt;=&nbsp;0<br>
+indicates&nbsp;a&nbsp;counter-clockwise&nbsp;oriented&nbsp;ring.</tt></dd></dl>
+ <dl><dt><a name="-test"><strong>test</strong></a>()</dt><dd><tt>#&nbsp;Begin&nbsp;Testing</tt></dd></dl>
+ <dl><dt><a name="-u"><strong>u</strong></a>(v)</dt></dl>
+ <dl><dt><a name="-unpack"><strong>unpack</strong></a>(...)</dt><dd><tt>Unpack&nbsp;the&nbsp;string&nbsp;containing&nbsp;packed&nbsp;C&nbsp;structure&nbsp;data,&nbsp;according&nbsp;to&nbsp;fmt.<br>
+Requires&nbsp;len(string)&nbsp;==&nbsp;<a href="#-calcsize">calcsize</a>(fmt).</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>MULTIPATCH</strong> = 31<br>
+<strong>MULTIPOINT</strong> = 8<br>
+<strong>MULTIPOINTM</strong> = 28<br>
+<strong>MULTIPOINTZ</strong> = 18<br>
+<strong>NULL</strong> = 0<br>
+<strong>POINT</strong> = 1<br>
+<strong>POINTM</strong> = 21<br>
+<strong>POINTZ</strong> = 11<br>
+<strong>POLYGON</strong> = 5<br>
+<strong>POLYGONM</strong> = 25<br>
+<strong>POLYGONZ</strong> = 15<br>
+<strong>POLYLINE</strong> = 3<br>
+<strong>POLYLINEM</strong> = 23<br>
+<strong>POLYLINEZ</strong> = 13<br>
+<strong>PYTHON3</strong> = False<br>
+<strong>__version__</strong> = '1.2.1'</td></tr></table>
+</body></html>
