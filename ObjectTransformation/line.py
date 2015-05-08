@@ -78,7 +78,7 @@ class Line() :
 		@return: None.
 		"""
 		self.calculateXY( scale , rotation , centerLatLong , centerXY ) 
-		self.drawLine()
+		self.drawLine( canvas )
 
 
 	def paintPlaneLine( self , canvas , rotation , centerXY ) :
@@ -95,7 +95,7 @@ class Line() :
 		"""
 		self.point1.rotate( rotation , centerXY )
 		self.point2.rotate( rotation , centerXY )
-		self.drawLine()
+		self.drawLine( canvas )
 
 
 	def drawLine( self , canvas ) :

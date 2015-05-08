@@ -166,7 +166,7 @@ class NavigationManager(Frame):
 		print("\n\nin run")
 
 		self.refreshDisplay() 
-		self.after( refreshTime , self.run ) 
+		self.after( self.refreshTime , self.run ) 
 
 
 	def refreshDisplay(self):
@@ -227,7 +227,7 @@ class NavigationManager(Frame):
 
 		@return: None.
 		"""
-		self.zoom( zoomInFactor )
+		self.zoom( self.zoomInFactor )
 
 
 	def zoomOut(self):
@@ -236,7 +236,7 @@ class NavigationManager(Frame):
 
 		@return: None.
 		"""
-		self.zoom( zoomOutFactor )
+		self.zoom( self.zoomOutFactor )
 
 
 	def zoom(self, factor):
