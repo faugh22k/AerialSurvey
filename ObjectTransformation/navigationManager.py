@@ -4,6 +4,8 @@ from Tkinter import *		# for painting
 from flightPlan import *	# flightplan - flightlines & ramps
 from breadcrumbs import *	# breadcrumbs & plane
 
+from time import sleep
+
 
 class NavigationManager(Frame):
 	"""
@@ -58,6 +60,12 @@ class NavigationManager(Frame):
 	
 	# ground speed (from GPS)
 	groundSpeed = 0
+
+	# for smooth rotation
+	rotationRefresh = 10
+	smoothRotate = False
+	rotateDelay = 10
+	rotateIncrement = None
 
 
 	# --- Construction -------------------------------------------- #
@@ -186,8 +194,19 @@ class NavigationManager(Frame):
 		self.centerXY = (canvasWidth/2, canvasHeight/2) 
 
 		# paints display (flight plan, breadcrumbs)
-		self.flightPlan.paint( self.canvas, self.scale, self.rotation, self.centerLatLong, self.centerXY )
-		self.breadcrumbs.paint( self.canvas, self.scale, self.rotation, self.centerLatLong, self.centerXY ) 
+		if self.smoothRotate:
+
+			for i in range( 0 , self.rotationRefresh ):
+				self.rotation += self.rotateIncrement
+				self.flightPlan.paint( self.canvas, self.scale, self.rotation, self.centerLatLong, self.centerXY )
+				self.breadcrumbs.paint( self.canvas, self.scale, self.rotation, self.centerLatLong, self.centerXY ) 
+				sleep( self.rotateDelay )
+
+			self.smoothRotate = False
+
+		else:
+			self.flightPlan.paint( self.canvas, self.scale, self.rotation, self.centerLatLong, self.centerXY )
+			self.breadcrumbs.paint( self.canvas, self.scale, self.rotation, self.centerLatLong, self.centerXY ) 
 
 
 	def newGPSData(self):
@@ -205,8 +224,17 @@ class NavigationManager(Frame):
 		
 		# get bearing & ground speed from GPS
 		groundSpeedBearing = self.gpsReader.getGroundSpeedAndBearing()
-		self.rotation = groundSpeedBearing[1]
 		self.groundSpeed = groundSpeedBearing[0]
+
+		# auto-rotate: need to be smooth
+		newRotation = groundSpeedBearing[1]
+
+		if newRotation != self.rotation:
+			self.smoothRotate = True
+			self.rotateIncrement = (newRotation - self.rotation) / self.rotationRefresh
+		else:
+			self.smoothRotate = False
+			self.rotation = newRotation
 
 
 	# --- Event Handling ------------------------------------------ #
